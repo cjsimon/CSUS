@@ -13,6 +13,8 @@ public class Squares {
 		
 		// Using Math.pow()
 		// See: http://www.tutorialspoint.com/java/lang/math_pow.htm
+		// for details on the use of Math.pow().
+		// We will go over this within the next few weeks.
 		for(int i = 1; i <= 10; i++) {
 			// (int) Changes the number from a decimal value to an int.
 			// We will go over type casting next week
