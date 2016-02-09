@@ -5,6 +5,9 @@
 ## Ignore java class files
 *.class
 
+## EXE Files
+#*.exe
+
 #############################################################
 
 ## Ignore Visual Studio temporary files, build results, and
