@@ -1,2 +1,5 @@
 ## Ignore "Other" files in root directory under Other dir
 /*/Other
+
+## Ignore code.rtf used for printing
+[cC]ode.rtf

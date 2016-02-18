@@ -5,10 +5,6 @@
 ## Ignore java class files
 *.class
 
-## Ignore code.rtf files used for printing code
-code.rtf
-Code.rtf
-
 ## EXE Files
 #*.exe
 
