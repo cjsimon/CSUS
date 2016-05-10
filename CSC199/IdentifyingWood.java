@@ -10,9 +10,9 @@
  * Parameters:	String, String
  * Returns:		String
  * Signature:	String check(String s, String t)
- * See:	https://community.topcoder.com/stat?c=problem_statement&pm=13487&rd=16078
+ * See:			https://community.topcoder.com/stat?c=problem_statement&pm=13487&rd=16078
  */
-class IdentifyingWood {	
+class IdentifyingWood {
 	public static String check(String s, String t) {
 		int i = 0; // Index of t
 		int j = 0; // Index of s

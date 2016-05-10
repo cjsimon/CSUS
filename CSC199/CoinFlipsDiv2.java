@@ -1,3 +1,7 @@
+/**
+ * This solution worked on my local machine with the website's test cases
+ * but didn't pass with the same test cases on the acctual website
+ */
 public class CoinFlipsDiv2 {
 	public static void main(String... args) {
 		System.out.println(countCoins("THHH"));
@@ -15,6 +19,7 @@ public class CoinFlipsDiv2 {
 			intrest++;
 		}
 		
+		// Brutre Force
 		for(int c = 1; c < state.length()-1; c++) {
 			char coin = state.charAt(c);
 			next = state.charAt(c+1);
