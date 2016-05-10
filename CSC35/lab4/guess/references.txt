@@ -1,0 +1,10 @@
+http://stackoverflow.com/questions/8226540/use-int-randvoid-in-assembly
+http://stackoverflow.com/questions/7190050/how-do-i-compile-the-asm-generated-by-gcc
+http://stackoverflow.com/questions/6268745/invalid-instruction-suffix-for-push-when-assembling-with-gas
+http://stackoverflow.com/questions/12249842/creating-and-calling-function-in-x86-assembly-att-syntax
+http://stackoverflow.com/questions/3577922/how-to-link-a-gas-assembly-program-that-uses-the-c-standard-library-with-ld-with
+http://stackoverflow.com/questions/18091463/why-does-an-assembly-program-only-work-when-linked-with-crt1-o-crti-o-and-crtn-o
+http://wiki.osdev.org/Creating_a_C_Library
+http://stackoverflow.com/questions/17898989/what-is-global-start-in-assembly-language
+http://stackoverflow.com/questions/17882936/global-main-in-assembly
+https://bytes.com/topic/c/answers/798972-how-change-entry-point-main-c-langauge

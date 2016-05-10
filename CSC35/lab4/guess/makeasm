@@ -1,0 +1,33 @@
+# Compile assembly with dynamic-linker in order to include c object libraries
+# Project Files
+ASMFILE=lab4.s
+OBJ=lab4.o
+EXE=lab4
+# Assemble and link commands
+ASM=as
+LINK=ld
+# The Dynamic Linker
+DL=/lib/ld-linux.so.2
+# crt1.o: Newer style of the initial runtime code
+# Contains the _start symbol which sets up the env with
+# argc/argv/libc, _init/libc, and _fini
+# before jumping to the libc main. glibc calls this file 'start.S'
+CRT1=/usr/lib/crt1.o
+# crti.o: Defines the function prolog (start) and
+# _init in the .init section and _fini in the .fini section
+# glibc calls this 'initfini.c'
+CRTI=/usr/lib/crti.o
+# crtn.o: Defines the function epilog (end)
+# glibc calls this 'initfini.c'
+CRTN=/usr/lib/crtn.o
+# The function entry point flag -e
+ENTRY=e
+FUNCTION=main
+
+all: $(EXE)
+$(EXE): $(OBJ)
+	$(LINK) -o $(EXE) -dynamic-linker $(DL) $(CRT1) $(CRTI) -lc $(OBJ) $(CRTN) -e $(FUNCTION)
+$(OBJ): $(ASM)
+	$(ASM) -o $(OBJ) $(ASMFILE)
+clean:
+	rm $(EXE) $(OBJ)
