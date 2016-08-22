@@ -1,0 +1,18 @@
+Script started on Fri 02 Oct 2015 07:57:31 PM PDT
+[?1034hbash-4.1$ touch [K[K[K[K[K[Kmake
+make: Nothing to be done for `all'.
+bash-4.1$ touch csc60_stat_make_file_[K.c
+bash-4.1$ mae[Kke
+gcc -g -Wall -c csc60_stat_make_file.c
+gcc file_perms.o error_functions.o csc60_stat_make_file.o -o csc60_stat_make_file
+bash-4.1$ make
+make: Nothing to be done for `all'.
+bash-4.1$ touch file_perms.h
+bash-4.1$ make
+gcc -g -Wall -c file_perms.c
+gcc -g -Wall -c csc60_stat_make_file.c
+gcc file_perms.o error_functions.o csc60_stat_make_file.o -o csc60_stat_make_file
+bash-4.1$ s[Kexit
+exit
+
+Script done on Fri 02 Oct 2015 07:58:56 PM PDT

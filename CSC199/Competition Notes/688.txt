@@ -1,0 +1,6 @@
+Score: 0 points (Around 135 points)
+
+I was able to solve the first problem in about 25 minutes, but that's all I could complete.
+Unfortunately, after pasting my solution to TopCoder from my IDE and submitting it,
+the website claimed that my submission was blank, so I got 0 points after the testing phase.
+It awarded me around 135 points for the of submission, however.

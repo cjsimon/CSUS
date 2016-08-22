@@ -1,0 +1,71 @@
+14 True or False
+20 Multiple Choice
+Fill in the blank
+Compiling Making
+Make a small Make File
+
+Bitwise opporators: What variiable types can use it with?
+ ~ Complement
+ & And
+ | Or
+					
+What is a makefile?
+What are '-o' '-lm' '-c'?
+
+Know the relationship between parent and child processes.
+
+What is the defenition of a system call?
+
+Standard File Descriptiors:
+SDTIN  0
+STDOUT 1
+STDERR 2
+
+In c, fclose is used.
+In linux, its just close.
+
+----------------------------
+Interprocess Communications:
+Pipe
+Signal
+Thread
+Shared Memory
+
+Which of these are synchronized and asynchronous?
+----------------------------
+
+Know the defenition of the following c functions:
+fork()
+exec()
+dup2()
+kill()
+signal()
+
+exit()
+_exit()
+
+
+Know the C conversion specifiers (Characters and Strings)
+
+Know the system calls that deal with the environment, including ENVIRONMENTAL VARIABLES
+
+-----------
+What are the UID PID?
+UID -> User ID
+PID -> Process ID
+-----------
+
+chmod -> Change permissions of a file.
+pwd   -> Prints the working directory
+/     -> The root directory
+
+
+How to rename a file?
+How to remove an empty directory?
+What characters can be used in linux file names?
+
+Know how to use strcat()
+Know how to use #define
+
+What is the name of the c debugger? gdb
+Which of the following is not a call in gdb?

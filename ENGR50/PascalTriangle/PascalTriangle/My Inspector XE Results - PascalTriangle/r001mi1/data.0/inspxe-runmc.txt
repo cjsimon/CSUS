@@ -1,0 +1,32 @@
+
+=== Start: [2016/03/12 00:12:40] === 
+Analysis started...
+Result file: C:\Users\csimon\Documents\Git\CSUS\ENGR50\PascalTriangle\PascalTriangle\My Inspector XE Results - PascalTriangle\r001mi1\r001mi1.inspxe 
+Analysis started for C:\Users\csimon\Documents\Git\CSUS\ENGR50\PascalTriangle\Debug\PascalTriangle.exe (pid = 6604) 
+Loaded module: C:\Users\csimon\Documents\Git\CSUS\ENGR50\PascalTriangle\Debug\PascalTriangle.exe, address range [0x00820000-0x0084AFFF] 
+Loaded module: C:\Program Files (x86)\IntelSWTools\Inspector XE 2016\bin32\dnclrprof.dll, address range [0x0F610000-0x0F654FFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\bcryptPrimitives.dll, address range [0x74540000-0x74598FFF] 
+Loaded module: C:\WINDOWS\SYSTEM32\CRYPTBASE.dll, address range [0x745A0000-0x745A9FFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\SspiCli.dll, address range [0x745B0000-0x745CDFFF] 
+Loaded module: C:\WINDOWS\SYSTEM32\MSCTF.dll, address range [0x745D0000-0x746EFFFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\GDI32.dll, address range [0x74780000-0x748CCFFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\sechost.dll, address range [0x75C90000-0x75CD2FFF] 
+Loaded module: C:\WINDOWS\SYSTEM32\IMM32.DLL, address range [0x75CE0000-0x75D0AFFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\KERNEL32.DLL, address range [0x75E00000-0x75EEFFFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\USER32.dll, address range [0x75FB0000-0x760EFFFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\ole32.dll, address range [0x76190000-0x76279FFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\combase.dll, address range [0x76970000-0x76B29FFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\msvcrt.dll, address range [0x76C30000-0x76CEDFFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\KERNELBASE.dll, address range [0x76CF0000-0x76E65FFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\RPCRT4.dll, address range [0x770E0000-0x7718BFFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\ADVAPI32.dll, address range [0x77400000-0x7747AFFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\ntdll.dll, address range [0x774A0000-0x77618FFF], minimal analysis 
+Loaded module: C:\WINDOWS\SYSTEM32\VCRUNTIME140D.dll, address range [0x0F260000-0x0F27BFFF] 
+Loaded module: C:\WINDOWS\SYSTEM32\ucrtbased.dll, address range [0x0F440000-0x0F5B2FFF] 
+Loaded module: C:\WINDOWS\SYSTEM32\kernel.appcore.dll, address range [0x76E70000-0x76E7BFFF] 
+Process C:\Users\csimon\Documents\Git\CSUS\ENGR50\PascalTriangle\Debug\PascalTriangle.exe exited with code 0. Leak analysis starting. Please wait... 
+Completed analysis for C:\Users\csimon\Documents\Git\CSUS\ENGR50\PascalTriangle\Debug\PascalTriangle.exe 
+Application exit code: 0 
+Result file: C:\Users\csimon\Documents\Git\CSUS\ENGR50\PascalTriangle\PascalTriangle\My Inspector XE Results - PascalTriangle\r001mi1\r001mi1.inspxe 
+Analysis completed
+=== End: [2016/03/12 00:12:47] === 

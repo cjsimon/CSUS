@@ -1,0 +1,6 @@
+I didn't make it on time for registration; however, I participated in the contest with another classmate who signed in on time.
+Together, we got the first problem and were able to pass all the test cases for 250pts.
+We ran out of time while attempting to figure out the second problem.
+For the second problem, we considered brute force at first, but then thought that there were too many combinations to iterate through.
+So we brainstormed about trying to pick a pattern size, n, within the set, check through all patterns of that size, and try to deduce whether to check for a pattern size greater or less than n, depending on whether we got a match or not.
+In the long run, we ran out of time before coding up a solution to the problem, though we wouldn't have gotten too far before realizing that our solution wouldn't work.

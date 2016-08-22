@@ -1,0 +1,26 @@
+Score: 50
+I got my code for IdentifyingWood to past all the test cases
+locally on my computer in 15 minutes, however when submitting
+the program on topcoder, all test cases failed - The compiler
+indicated that my class had to be declared 'public', so I
+wasn't awarded any points. On the bright side, I did challenge
+another user's solution and found a test case that broke their
+code, so I got 50 points for that.
+
+When attempting the second problem, ExplodingRobots, after thinking
+about it for about 30 minutes, I thought of solving the problem by
+only attempting to execute the robot instructions only if it made them
+closer to each other. I though about doing this by checking all four
+possible outcomes and simply picking the outcome with the least delta x
+and delta y:
+
+case 1: R1 Moves R2 Moves
+case 2: R1 Moves R2 Stops
+case 3: R1 Stops R2 Moves
+case 4: R1 Stops R2 Stops
+
+Looking back at it, using the actual java awt Point class wasn't such a
+good idea for this. Maybe I could have done this using four separate integers
+instead, so that I wouldn't have to call Point.translate() to carry out the actual
+translations, which are all highly likely to take much more execution time than a
+simple increment/decrement. In the end, I ran out of time before finishing the solution 

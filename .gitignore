@@ -5,6 +5,9 @@
 ## Ignore java class files
 *.class
 
+## "Other" directory
+[Oo]ther
+
 ## EXE Files
 #*.exe
 

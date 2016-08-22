@@ -1,0 +1,47 @@
+#include <stdio.h>
+
+double d = 6.879;
+printf("\t\n");
+printf(d, %5.3f);
+
+Precidence
+
+What makes a valid variable?
+
+// Comment
+/* Comment */
+
+Declare file pointer
+fopen()		// input
+fscanf();	//
+
+typedef struct people {
+	char* name = "Okay";
+};
+
+people.name = "Hi";
+
+Pointers w/ Arrays
+
+
+Linux
+Basic Commands: dir, ls, cp, mv, rm, rmdir, cat, man, grep, chmod 777
+Root Dir: ~
+
+vi: Insert vs Command. Quit and save
+
+gdb - GNU DEBUGGER
+
+makefile
+
+File Descriptor
+012 STDIN STDOUT STDERR
+
+Table Names
+
+fork();
+wait();
+waitpid();
+
+Write Linux command to show file: cat or more or less
+

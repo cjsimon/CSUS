@@ -1,0 +1,7 @@
+  File: 'file_perms.c'
+  Size: 2460            Blocks: 8            IO Block: 524288 regular file
+Device: 1ah/26d   Inode: 26626094   Links: 1
+Access: ( 644/-rw-r--r--) Uid: (5849/simonc) Gid: (4102/stdcsc)
+Access: 2015-09-25 08:29:41 -0700
+Modify: 2015-09-18 19:29:26 -0700
+Change: 2015-09-18 19:29:26 -0700

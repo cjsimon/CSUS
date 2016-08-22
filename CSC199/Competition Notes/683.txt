@@ -1,0 +1,19 @@
+Score: 25
+I spent my whole hour trying to figure out a solution to the first problem,
+EqualSubstrings2, however I couldn't get it to run in th end. I figured that
+brute force would be a decent solution to the problem, because I would only
+need to test for substrings up to n/2, because there couldn't possibly be
+another matching substring of the same length in n that is greater then
+length n/2.
+
+Iterating over the substrings proved to be a challenge. Since I incorrectly
+thought that converting the String into a char array would make this process
+easier - I had trouble trying to create substrings by passing in starting and
+ending indeces for the current string, and it became really difficult trying
+to iterate over each of those chars, trying to compare for a substring match.
+I think the String seems to do this in the background anyways, so it would have
+made more sense to stick with that.
+
+I was satisfied to see that my thought process for the implementation matched
+some of the correct solutions. I was able to successfully challenge a user
+who forgot to check for substrings not starting from the first character.

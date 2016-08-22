@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<diags major="2" minor="0">
+
+<diag id="1">
+	<type>233</type>
+	<message>
+		<timestamp>169727512</timestamp>
+		<thread>
+			<thrname></thrname>
+			<threadid>8004</threadid>
+			<stackstamp>169810088</stackstamp>
+			<stacktrace>
+			<loc>
+			<mod>C:\Users\csimon\Documents\Git\CSUS\ENGR50\PascalTriangle\Debug\PascalTriangle.exe</mod>
+			<rva>0x11046</rva>
+			</loc>
+			</stacktrace>
+		</thread>
+	</message>
+</diag>
+
+<diag id="2">
+	<type>231</type>
+	<message>
+		<timestamp>5456167758</timestamp>
+		<thread>
+			<thrname></thrname>
+			<threadid>8004</threadid>
+			<stackstamp>5456253382</stackstamp>
+		</thread>
+	</message>
+</diag>
+</diags>

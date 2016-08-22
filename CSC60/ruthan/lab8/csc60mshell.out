@@ -1,0 +1,91 @@
+Script started on Sun 15 May 2016 03:16:30 AM PDT
+[?1034hbash-4.1$ ./csc60mshell 
+crash> echo Hello!!!!
+Hello!!!!
+Child returned status: 0
+crash> ls
+csc60mshell  csc60mshell.c  execvp.c  hi  output  redir.c  waitpid.c
+Child returned status: 0
+crash> mkdir   test
+Child returned status: 0
+crash> ls
+csc60mshell  csc60mshell.c  execvp.c  hi  output  redir.c  test  waitpid.c
+Child returned status: 0
+crash> cd test
+crash> ls
+Child returned status: 0
+crash> pwd
+/gaia/class/student/simonc/csc60/ruthan/lab8/test
+crash> cd ..
+crash> ls
+csc60mshell  csc60mshell.c  execvp.c  hi  output  redir.c  test  waitpid.c
+Child returned status: 0
+crash> rm test
+rm: cannot remove `test': Is a directory
+Child returned status: 256
+crash> ls
+csc60mshell  csc60mshell.c  execvp.c  hi  output  redir.c  test  waitpid.c
+Child returned status: 0
+crash> rmdir test
+Child returned status: 0
+crash> ls
+csc60mshell  csc60mshell.c  execvp.c  hi  output  redir.c  waitpid.c
+Child returned status: 0
+crash> pe ws d
+/gaia/class/student/simonc/csc60/ruthan/lab8
+crash> cd  ls > list
+Child returned status: 0
+crash> cat list
+csc60mshell
+csc60mshell.c
+execvp.c
+hi
+list
+output
+redir.c
+waitpid.c
+Child returned status: 0
+crash> clear
+[H[2JChild returned status: 0
+crash> ls
+csc60mshell  csc60mshell.c  execvp.c  hi  list	output	redir.c  waitpid.c
+Child returned status: 0
+crash> rm hi
+rm: remove write-protected regular file `hi'? y
+Child returned status: 0
+crash> rm list
+rm: remove write-protected regular file `list'? y
+Child returned status: 0
+crash> man ls
+[?1049h[?1h=LS(1)                            User Commands                           LS(1)
+
+[1mNAME[0m
+       ls - list directory contents
+
+[1mSYNOPSIS[0m
+       [1mls[0m [[4mOPTION[24m]... [[4mFILE[24m]...
+
+[1mDESCRIPTION[0m
+       List  information  about  the FILEs (the current directory by default).
+       Sort entries alphabetically if none of [1m-cftuvSUX[0m nor [1m--sort[0m.
+
+       Mandatory arguments to long options are  mandatory  for  short  options
+       too.
+
+       [1m-a[0m, [1m--all[0m
+              do not ignore entries starting with .
+
+       [1m-A[0m, [1m--almost-all[0m
+              do not list implied . and ..
+
+       [1m--author[0m
+              with [1m-l[0m, print the author of each file
+:[K[K[?1l>[?1049lChild returned status: 0
+crash> echo Bye!
+Bye!
+Child returned status: 0
+crash> exit
+bash-4.1$ exit
+exit
+
+Script done on Sun 15 May 2016 03:17:59 AM PDT

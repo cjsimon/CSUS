@@ -1,0 +1,12 @@
+Christopher Simon.  Lab 7.
+Enter an integer value (0 to stop):  Enter an integer value for the left shift: 
+Original is 3
+0000 0000 0000 0000 0000 0000 0000 0011 
+0000 0000 0000 0000 0000 0000 0011 0000 
+Shifted is 48
+Enter an integer value (0 to stop):  Enter an integer value for the left shift: 
+Original is -3
+1111 1111 1111 1111 1111 1111 1111 1101 
+1111 1111 1111 1111 1111 1111 1101 1111 
+Shifted is -33
+Enter an integer value (0 to stop):  
