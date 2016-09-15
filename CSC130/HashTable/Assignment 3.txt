@@ -1,0 +1,17 @@
+Implement a hash table that uses separate linked lists to resolve the issue of "collision".
+Implement a hash table that uses linear probing to resolve the issue of "collision".
+Implement a hash table that uses quadratic probing to resolve the issue of "collision".
+Implement a hash table that uses double hashing to resolve the issue of "collision".
+Design and implement a driver (the main method) that does the following:
+Use a random number generator to create 8192 random 16-bit integers and populate these numbers into an array of length 8192.
+	Create the above four hash tables whose size is the smallest prime number that is greater than 8192; use x%TableSize as the hash function for each table where x is a 16-bit integer.
+	For each hash table that is initially empty, do the following:
+		sequentially insert the array of random short integers into the hash table.
+		randomly remove 1000 numbers from the hash table.
+		find from the hash table each number of the original array starting from the last element to the first.
+		measure the elapsed time for the above three operations combined.
+
+Deliverables:
+
+Source code.
+Performance analysis document that will record, compare, and analyze the running times of manipulating four hash tables respectively.

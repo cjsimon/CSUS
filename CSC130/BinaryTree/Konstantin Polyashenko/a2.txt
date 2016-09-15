@@ -1,0 +1,13 @@
+
+Requirements:
+Design and implement an AVL Tree Node class that must support "insert", and optionally "remove" operations.
+Design and implement a Red-Black Node class that must support "insert", and optionally "remove" operations.
+Design and implement a driver (the main method) that does the following:
+Creates an array that contains a list of integers, in an ascending order, from 1 to to a large enough number (e.g. 1000, so that the running time of building a tree containing those numbers will be at least 1 minute).
+Creates an array that contains a list of integers that is the same as the 1st but in descending order (e.g. from 1000 to 1).
+Creates an array that has the same numbers as above, but the order of the numbers (e.g. 1 - 1000) is random. You can use a random number generator to decide and put a number into the array.
+AVL-insert, into a separate AVL tree that is initally empty, the numbers in each array sequentailly from the start to the end. Measure and print out the elapsed time of building each tree.
+RB-insert,  into a separate RB tree that is initally empty, the numbers in each array sequentailly from the start to the end. Measure and print out the elapsed time of building each tree.
+Deliverables:
+Source code. Please change the size of each array to a small number (e.g., between 10 and 20).
+Performance analysis document that will record, compare, and analyze the running times of building different AVL and RB trees.

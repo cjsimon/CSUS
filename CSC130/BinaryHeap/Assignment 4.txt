@@ -1,0 +1,20 @@
+Design and implement a Java class of binary heap that satisfies the following requirements:
+-The binary heap has a size of 101, and is implemented using an array and a heapSize index.
+-Each object in the heap is a process that contains the following data fields: (a) nice value (key), and (b) process ID (a sequence number).
+-The process objects in the heap are organized based upon their nice values, i.e. the nice value of a process must be no greater than that of its children.
+-A process is inserted into the heap using heap structure property and heap order property stated in step 3.
+-A process with the minimum nice values is removed from the heap using heap structure property and heap order property stated in step 3.
+
+Develop a driver that does the following:
+-Create two instances of heap objects where the arrays are intially empty.
+-Create 100 processes in such a manner that their IDs sequentially go from 1 to 100, and their nice values are between 0 and 39 (use a random generator). Then put them sequentially into the array of the first heap.
+-Use "buildHeap" algorithm to reorganize the first heap according to the heap order property.
+-Print out the content of the 1st heap sequentially.
+-Perform "deleteMin" to remove a process from the first heap (then the process is running), then "insert" it into the second heap (the process returns to the waiting queue after running out of its time share).
+-Keep doing step 5 till the first heap becomes empty and the second full.
+-Print out the content of the 2nd heap sequentially.
+-Compare if the printouts of the two heaps are the same.
+
+Deliverables:
+Design document
+Java source code

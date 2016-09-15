@@ -1,0 +1,11 @@
+We form a word using only A's, B's and C's.
+Suppose we can never have an A next to a C.
+Develop an algorithm that computes the number of n-letter words that can be formed.
+
+Deliverables:
+1. Write a dynamic-programming based algorithm that includes:
+- Defining variables
+- Developing recursive functions
+- Building a table for finding the number of 8-letter words that can be formed
+
+2. Translate the algorithm into a Java program that computes the number of n-letter words.
