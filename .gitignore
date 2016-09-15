@@ -22,6 +22,10 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
+# IntelliJ IDE
+*.iml
+*.idea
+
 # Windows Installer files
 *.cab
 *.msi
