@@ -4,10 +4,11 @@ public class Random {
 	private static final java.util.Random R = new java.util.Random();
 	private static Random instance = new Random();
 	
-	private Random(){}
+	private Random() {}
 	
 	public static Random getInstance() {
-		return instance;
+		if(instance != null) return instance;
+		else return instance = new Random();
 	}
 	
 	public int nextInt(int min, int max) {

@@ -7,24 +7,26 @@ import com.codename1.charts.util.ColorUtil;
 // Later we may add other kinds of game objects to the game,
 // such as robots that are helpers that aid both astronauts and aliens.
 // These new objects may be only moving, only guided, both moving and guided, or neither moving nor guided.
-
 public abstract class GameObject {
-	private static final Random r = Random.getInstance();
+	static final Random R = Random.getInstance();
 	
 	// Attributes
+	// The type of GameObject used for filtering search queries
+	@SuppressWarnings("deprecation")
+	private final String type = this.getClass().getSimpleName().toString();
 	private int size;
 	// The point (X,Y) is the center of the object.
 	private Point2D location;
 	private int color;
 	BoundingBox boundingMask;
-	// Attribure Bounds
+	// Attribute Bounds
 	// All game objects have a location, defined by floating point non-negative values X and Y,
 	// within the range 0.0 to GameWorld.WIDTH and 0.0 to GameWorld.HEIGHT respectively.
-	private static final double MIN_X_LOCATION = 0.0;
-	private static final double MIN_Y_LOCATION = 0.0;
-	private static final double MAX_X_LOCATION = (double)GameWorld.WIDTH;
-	private static final double MAX_Y_LOCATION = (double)GameWorld.HEIGHT;
-	private static final int 	DEFAULT_COLOR  = ColorUtil.rgb(0, 0, 0);
+	static final double MIN_X_LOCATION = 0.0;
+	static final double MIN_Y_LOCATION = 0.0;
+	static final double MAX_X_LOCATION = (double)GameWorld.WIDTH;
+	static final double MAX_Y_LOCATION = (double)GameWorld.HEIGHT;
+	static final int 	DEFAULT_COLOR  = ColorUtil.rgb(0, 0, 0);
 	
 	// Constructors
 	public GameObject() {
@@ -43,14 +45,17 @@ public abstract class GameObject {
 	}
 	
 	// Accessors
+	public String getType() {
+		return this.type;
+	}
 	public int getSize() {
-		return size;
+		return this.size;
 	}
 	public Point2D getLocation() {
-		return location;
+		return this.location;
 	}
 	public int getColor() {
-		return color;
+		return this.color;
 	}
 
 	// Mutators
@@ -74,7 +79,16 @@ public abstract class GameObject {
 	// Helper Methods
 	private static Point2D randomLocation() {
 		return new Point2D(
-				r.nextDouble(MIN_X_LOCATION, MAX_X_LOCATION),
-				r.nextDouble(MIN_Y_LOCATION, MAX_Y_LOCATION));
+				R.nextDouble(MIN_X_LOCATION, MAX_X_LOCATION),
+				R.nextDouble(MIN_Y_LOCATION, MAX_Y_LOCATION));
+	}
+	
+	@Override
+	public String toString() {
+		String s = "";
+		s += "Size:      " + this.getSize()				   + "\n";
+		s += "Location:  " + this.getLocation().toString() + "\n";
+		s += "Color:     " + this.getColor();
+		return s;
 	}
 }

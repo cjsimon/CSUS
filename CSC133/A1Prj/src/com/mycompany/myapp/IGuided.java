@@ -7,7 +7,6 @@ import com.codename1.ui.geom.Point2D;
 // selected astronaut or alien. Hence, the interface must declare five separate methods:
 // moveLeft, moveRight, moveUp, moveDown, and jumpToLocation.
 // All rescuers are guided and they are all guided the same way.
-
 public interface IGuided {
 	public boolean moveUp(double amount);
 	public boolean moveDown(double amount);
