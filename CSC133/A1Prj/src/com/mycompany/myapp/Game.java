@@ -30,13 +30,15 @@ public class Game extends Form {
 
 		// Create an action listener to check for changes in the text field
 		commandTextField.addActionListener(new ActionListener() {
-			// Keep track of the previous char so that different states can be chacked
+			// Keep track of the previous char so that different states can be checked
 			char previousCommand;
 			// ActionPreforrmed corresponds to the enter key in text field
 			// Why isn't this documented...?!
 			public void actionPerformed(ActionEvent evt) {
 				// System.out.println("Enter Key Pressed");
-				char command = commandTextField.getText().toString().toLowerCase().charAt(0);
+				String commandString = commandTextField.getText().toString().toLowerCase();
+				if(commandString.length() < 1) return;
+				char command = commandString.charAt(0);
 				commandTextField.clear();
 				executeCommand(command, previousCommand);
 				previousCommand = command;
@@ -80,6 +82,7 @@ public class Game extends Form {
 			// Expand the spaceship object
 			System.out.println("Expand the spaceship");
 			gw.expand(10);
+			break;
 		case 'c':
 			// Contract (decrease) the size of the spaceship door
 			// (the center location shouldn’t change)

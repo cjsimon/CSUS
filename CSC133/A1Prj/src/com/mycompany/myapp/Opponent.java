@@ -2,11 +2,6 @@ package com.mycompany.myapp;
 
 import com.codename1.ui.geom.Point2D;
 
-// TODO
-// The direction of opponents indicates heading specified by a compass angle in degrees.
-// 0 is north, 90 is east, 180 is south, and 270 is west.
-// See below for details on updating an opponent’s position when its move() method is invoked.
-
 // All opponents are moving and they all move the same way.
 public abstract class Opponent extends GameObject implements IMovable {
 	// Attributes
@@ -73,6 +68,15 @@ public abstract class Opponent extends GameObject implements IMovable {
 	}
 	
 	// Actions
+	/*
+	 * The direction of opponents indicates heading specified by a compass angle in degrees:
+	 * 0 is north
+	 * 90 is east
+	 * 180 is south
+	 * 270 is west
+	 * See below for details on updating an opponent’s position when its move() method is invoked.
+	 * @see com.mycompany.myapp.IMovable#move()
+	 */
 	public void move() {
 		// Calculate the degree of the object based on it's location
 		int degree = (this.getDirection() * 180) % 360;
@@ -82,6 +86,4 @@ public abstract class Opponent extends GameObject implements IMovable {
 		// Apply the new location
 		this.setLocation(new Point2D(x, y));
 	}
-	
-	// Helper Methods
 }

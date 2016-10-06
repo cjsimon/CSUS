@@ -1,6 +1,7 @@
 package com.mycompany.myapp;
 
 import com.codename1.maps.BoundingBox;
+import com.codename1.maps.Coord;
 import com.codename1.ui.geom.Point2D;
 import com.codename1.charts.util.ColorUtil;
 
@@ -18,7 +19,7 @@ public abstract class GameObject {
 	// The point (X,Y) is the center of the object.
 	private Point2D location;
 	private int color;
-	BoundingBox boundingMask;
+	BoundingBox collisionMask;
 	// Attribute Bounds
 	// All game objects have a location, defined by floating point non-negative values X and Y,
 	// within the range 0.0 to GameWorld.WIDTH and 0.0 to GameWorld.HEIGHT respectively.
@@ -57,10 +58,15 @@ public abstract class GameObject {
 	public int getColor() {
 		return this.color;
 	}
-
+	public BoundingBox getCollisionMask() {
+		return collisionMask;
+	}
+	
 	// Mutators
 	public boolean setSize(int size) {
 		this.size = size;
+		// Recalculate the bounding box according to the new size
+		calculateCollisionMask();
 		return true;
 	}
 	// All GameObjects provide the ability for external code to obtain and change their location.
@@ -83,11 +89,33 @@ public abstract class GameObject {
 				R.nextDouble(MIN_Y_LOCATION, MAX_Y_LOCATION));
 	}
 	
+	/**
+	 * Calculate the bounding box of the object according to it's current size
+	 * @return BoundingBox
+	 */
+	private BoundingBox calculateCollisionMask() {
+		double size = this.getSize();
+		double diagonalSize = size/2;
+		Point2D swPoint = new Point2D(location.getX() - diagonalSize, location.getY() - diagonalSize);
+		Point2D nePoint = new Point2D(location.getX() + diagonalSize, location.getY() + diagonalSize);
+		
+		//		                    logitude         latitude
+		Coord swCoord = new Coord(swPoint.getY(), swPoint.getX());	
+		Coord neCoord = new Coord(nePoint.getY(), nePoint.getX());
+		
+		return new BoundingBox(swCoord, neCoord);
+	}
+	
 	@Override
 	public String toString() {
+		Point2D location = this.getLocation();
+		double x = Math.round(location.getX());
+		double y = Math.round(location.getY());
+		
 		String s = "";
-		s += "Size:      " + this.getSize()				   + "\n";
-		s += "Location:  " + this.getLocation().toString() + "\n";
+		s += "Name:      " + this.getType() 		  + "\n";
+		s += "Size:      " + this.getSize()			  + "\n";
+		s += "Location:  " + "(" + x + ", " + y + ")" + "\n";
 		s += "Color:     " + this.getColor();
 		return s;
 	}
