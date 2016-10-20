@@ -8,10 +8,10 @@ public class Alien extends Opponent {
 	// For now, we assume that constant is equal to 1.
 	private static final int SPEED_CONSTANT = 1;
 	private static final int DEFAULT_SPEED  = 5;
-	// All objects of the same class have the same initial color
 	
 	// Attributes
 	@SuppressWarnings("unused")
+	// All objects of the same class have the same initial color
 	private int color = ColorUtil.GREEN;
 	
 	public Alien() {
