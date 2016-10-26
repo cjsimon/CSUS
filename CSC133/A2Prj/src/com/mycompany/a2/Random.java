@@ -1,4 +1,4 @@
-package com.mycompany.myapp;
+package com.mycompany.a2;
 
 public class Random {
 	private static final java.util.Random R = new java.util.Random();

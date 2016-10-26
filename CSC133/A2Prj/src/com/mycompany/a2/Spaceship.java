@@ -1,4 +1,4 @@
-package com.mycompany.myapp;
+package com.mycompany.a2;
 
 import com.codename1.ui.geom.Point2D;
 
@@ -7,7 +7,6 @@ public class Spaceship extends Rescuer implements IGuided {
 	
 	// Attributes
 	@SuppressWarnings("unused")
-	private int size = 100;
 	// Attribute Bounds
 	// The size attribute of the spaceship which indicates the size of its door is constrained to be a
 	// positive integer between 50 and 1024 (inclusive), and set to 100 when the object is created.
@@ -16,7 +15,12 @@ public class Spaceship extends Rescuer implements IGuided {
 	static final int MAX_SIZE	= 1024;	
 	
 	// Constructors
-	private Spaceship() {}
+	// TODO: This is technically bad practice.
+	//       The fact that code for setting a parameter exists
+	//       in the singleton indicates that this object shouldn't
+	//       really be using the singleton design pattern.
+	//       Singletons should have an empty body implementation.
+	private Spaceship() { setSize(START_SIZE); }
 	public static Spaceship getInstance() {
 		if(instance != null) {
 			return instance;
@@ -28,7 +32,7 @@ public class Spaceship extends Rescuer implements IGuided {
 	@Override
 	public boolean setSize(int size) {
 		boolean withinBounds = (MIN_SIZE <= size && size <= MAX_SIZE);
-		if(withinBounds) this.setSize(size);
+		if(withinBounds) super.setSize(size);
 		return withinBounds;
 	}
 

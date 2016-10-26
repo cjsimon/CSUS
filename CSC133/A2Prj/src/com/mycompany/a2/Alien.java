@@ -1,4 +1,4 @@
-package com.mycompany.myapp;
+package com.mycompany.a2;
 
 import com.codename1.charts.util.ColorUtil;
 
@@ -38,8 +38,8 @@ public class Alien extends Opponent {
 	
 	@Override
 	public String toString() {
-		String s = super.toString() 			 + "\n";
-		s += "Speed:     " + this.getSpeed() 	 + "\n";
+		String s = super.toString() 			  + "\n";
+		s += "Speed:     " + this.getSpeed() 	  + "\n";
 		s += "Direction: " + this.getDirection();
 		return s;
 	}

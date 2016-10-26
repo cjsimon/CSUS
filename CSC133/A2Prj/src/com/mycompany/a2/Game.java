@@ -1,4 +1,4 @@
-package com.mycompany.myapp;
+package com.mycompany.a2;
 
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
@@ -13,10 +13,6 @@ public class Game extends Form {
 		gw = new GameWorld();
 		gw.init();
 		play();
-		
-		// Find the one and only spaceship in the GameWorld
-		@SuppressWarnings("unused")
-		final Spaceship spaceship = (Spaceship)GameWorld.findOne("Spaceship");
 	}
 
 	@SuppressWarnings("rawtypes")

@@ -1,4 +1,4 @@
-package com.mycompany.myapp;
+package com.mycompany.a2;
 
 import java.util.AbstractList;
 import java.util.StringTokenizer;
@@ -23,7 +23,7 @@ public class GameWorld {
 	// The score of the game
 	private int score = 0;
 
-	// Game Spacific Attributes
+	// Game Specific Attributes
 	// TODO Make this GameWorld class an abstract class that
 	// 		gets extended to include this game specific methods,
 	// 		variables and logic.

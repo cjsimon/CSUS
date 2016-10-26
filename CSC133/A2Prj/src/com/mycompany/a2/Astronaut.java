@@ -1,4 +1,4 @@
-package com.mycompany.myapp;
+package com.mycompany.a2;
 
 import com.codename1.charts.util.ColorUtil;
 

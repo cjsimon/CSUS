@@ -1,4 +1,4 @@
-package com.mycompany.myapp;
+package com.mycompany.a2;
 
 import com.codename1.maps.BoundingBox;
 import com.codename1.maps.Coord;
@@ -93,7 +93,7 @@ public abstract class GameObject {
 	 * Calculate the bounding box of the object according to it's current size
 	 * @return BoundingBox
 	 */
-	private BoundingBox calculateCollisionMask() {
+	private boolean calculateCollisionMask() {
 		double size = this.getSize();
 		double diagonalSize = size/2;
 		Point2D swPoint = new Point2D(location.getX() - diagonalSize, location.getY() - diagonalSize);
@@ -103,7 +103,8 @@ public abstract class GameObject {
 		Coord swCoord = new Coord(swPoint.getY(), swPoint.getX());	
 		Coord neCoord = new Coord(nePoint.getY(), nePoint.getX());
 		
-		return new BoundingBox(swCoord, neCoord);
+		collisionMask = new BoundingBox(swCoord, neCoord);
+		return true;
 	}
 	
 	@Override
