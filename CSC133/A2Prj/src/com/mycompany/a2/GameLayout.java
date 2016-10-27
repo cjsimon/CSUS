@@ -15,8 +15,8 @@ public class GameLayout extends Form {
         // Set layout. Default is FlowLayout
         this.setLayout(new BorderLayout());
         Container northContainer = new Container(),
-                      nTop       = new Container(),
-                      nBottom    = new Container();
+                  nTop           = new Container(),
+                  nBottom        = new Container();
         northContainer.setLayout(new BoxLayout(BoxLayout.Y_AXIS));
         
         // Set nTop and nBottom Layouts within northContainer
@@ -32,8 +32,17 @@ public class GameLayout extends Form {
         
         // TODO: Add Commands to side menu
         // See slide 21 in GUI Power Point
+        Command scoreCommand = new Command("Score");
+        Command soundCommand = new Command("Sound");
+        Command aboutCommand = new Command("About");
+        Command exitCommand  = new Command("Exit");
+        // Add commands to hamburger menu
+        myToolbar.addCommandToSideMenu(scoreCommand);
+        myToolbar.addCommandToSideMenu(soundCommand);
+        myToolbar.addCommandToSideMenu(aboutCommand);
+        myToolbar.addCommandToSideMenu(exitCommand);
         
-        // Add help bar
+        // Add help to right
         Command helpCommand = new Command("Help");
         myToolbar.addCommandToRightBar(helpCommand);
         
@@ -56,7 +65,7 @@ public class GameLayout extends Form {
         this.add(BorderLayout.EAST, bDown);
         this.add(BorderLayout.EAST, bRight);
         this.add(BorderLayout.EAST, bMoveToAlien);
-
+        
         Button bNewAlien        = new Button("NewAlien");
         Button bFight           = new Button("Fight");
         Button bTick            = new Button("Left");
@@ -68,9 +77,11 @@ public class GameLayout extends Form {
         Button bUp              = new Button("Up");
         Button bLeft            = new Button("Left");
         Button bMoveToAstronaut = new Button("MoveToAstronaut");
+        Button bScore = new Button("Score");
         this.add(BorderLayout.WEST, bExpand);
         this.add(BorderLayout.WEST, bUp);
         this.add(BorderLayout.WEST, bLeft);
         this.add(BorderLayout.WEST, bMoveToAstronaut);
+        this.add(BorderLayout.WEST, bScore);
     }
 }
