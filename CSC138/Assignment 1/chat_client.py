@@ -4,7 +4,7 @@ import select
 
 if __name__ == '__main__':
 	host = '127.0.0.1'
-	port = 9754
+	port = 3001
 	
 	# Create a client socket
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,7 +34,8 @@ if __name__ == '__main__':
 				if not serverData:
 					# If there is no server data, assume that
 					# client has disconnected from the server
-					print '\nDisconnected from chat server'
+					print('\nDisconnected from chat server')
+					client.close()
 					sys.exit()
 				else:
 					# Write the data from the server to stdout
@@ -45,8 +46,9 @@ if __name__ == '__main__':
 				# recieved from the server, allow the client to type in and
 				# send a message to the server
 				clientData = sys.stdin.readline()
-				if clientData.lower() == 'exit':
-					break
+				if clientData.lower() == 'exit\n':
+					client.close()
+					sys.exit('Goodbye!')
 				# Send the clientData to the server
 				client.send(clientData)
 				sys.stdout.write('Client: '); sys.stdout.flush()
