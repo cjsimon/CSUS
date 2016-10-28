@@ -7,8 +7,8 @@ def broadcast(broadcastingClient, data):
 	for client in clients:
 		# Do not broadcast the data to the server
 		# or the broadcasting client itself
-		if client == server or client == broadcastingClient:
-			pass
+		if client == broadcastingClient:
+			continue
 		try:
 			# Send data to the current client
 			client.send(data)
@@ -24,7 +24,7 @@ if __name__ == '__main__':
 	
 	# 0.0.0.0 is both localhost and the ip of the computer
 	ip = '0.0.0.0'
-	port = 8000
+	port = 8001
 	
 	# Create a server socket
 	server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -45,29 +45,27 @@ if __name__ == '__main__':
 		# select gets the read, write, and error file descriptors
 		socketsOut, socketsIn, socketsError = select.select(clients, [], [])
 		
+		# Check for new connections
+		client, clientAddress = server.accept()
+		clients.append(client)
+		print "Client Connected: (%s, %s)" % clientAddress
+		broadcast(client, "Client has entered room: (%s:%s)\n" % clientAddress)
+		
 		for socket in socketsOut:
-			if socket == server:
-				# Check for new connections
-				client, clientAddress = server.accept()
-				clients.append(client)
-				print "Client Connected: (%s, %s)" % clientAddress
-				broadcast(client, "Client has entered room: (%s:%s)\n" % clientAddress)
-			#Some incoming message from a client
-			else:
-				try:
-					# Get data from the current client socket
-					data = socket.recv(4096)
-					# If any data was received, broadcast it to all other clients
-					if data:
-						broadcast(socket, '\r%s: %s' % str(socket.getpeername()), data)
-				except:
-					disconnectMessage = "Client (%s, %s) has disconnected" % clientAddress
-					# Indicate that the client has been disconnected
-					broadcast(socket, disconnectMessage)
-					print(disconnectMessage)
-					# Close the client connection and remove it from the list of connected clients
-					socket.close()
-					clients.remove(socket)
-					# This client no longer exists. Goto the next one
-					continue
+			try:
+				# Get data from the current client socket
+				data = socket.recv(4096)
+				# If any data was received, broadcast it to all other clients
+				if data:
+					broadcast(socket, '\r%s: %s' % str(socket.getpeername()), data)
+			except:
+				disconnectMessage = "Client (%s, %s) has disconnected" % clientAddress
+				# Indicate that the client has been disconnected
+				broadcast(socket, disconnectMessage)
+				print(disconnectMessage)
+				# Close the client connection and remove it from the list of connected clients
+				socket.close()
+				clients.remove(socket)
+				# This client no longer exists. Goto the next one
+				continue
 	server.close()
