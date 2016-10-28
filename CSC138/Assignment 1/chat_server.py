@@ -24,7 +24,7 @@ if __name__ == '__main__':
 	
 	# 0.0.0.0 is both localhost and the ip of the computer
 	ip = '0.0.0.0'
-	port = 8001
+	port = 9754
 	
 	# Create a server socket
 	server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -36,7 +36,7 @@ if __name__ == '__main__':
 	server.listen(10)
 	
 	# Add the server to the list of clients
-	clients.append(server)
+	#REMOVE: #clients.append(server)
 	print("Listening on port %i" % port)
 	
 	# Keep the server running...
@@ -49,17 +49,17 @@ if __name__ == '__main__':
 		client, clientAddress = server.accept()
 		clients.append(client)
 		print "Client Connected: (%s, %s)" % clientAddress
-		broadcast(client, "Client has entered room: (%s:%s)\n" % clientAddress)
+		#broadcast(client, "Client has entered room: %s:%s\n" % clientAddress)
 		
 		for socket in socketsOut:
 			try:
 				# Get data from the current client socket
-				data = socket.recv(4096)
+				data = socket.recv(1024)
 				# If any data was received, broadcast it to all other clients
 				if data:
 					broadcast(socket, '\r%s: %s' % str(socket.getpeername()), data)
 			except:
-				disconnectMessage = "Client (%s, %s) has disconnected" % clientAddress
+				disconnectMessage = "Client %s:%s has disconnected" % clientAddress
 				# Indicate that the client has been disconnected
 				broadcast(socket, disconnectMessage)
 				print(disconnectMessage)
