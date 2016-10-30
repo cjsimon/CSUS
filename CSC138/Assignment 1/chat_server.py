@@ -1,6 +1,10 @@
 import socket
 import select
 
+'''
+Christopher Simon
+
+'''
 # Broadcasts data to all other connected clients in the server,
 # not including the broadcasting client
 def broadcast(broadcastingClient, data):

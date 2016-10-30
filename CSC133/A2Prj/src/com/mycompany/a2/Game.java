@@ -6,13 +6,36 @@ import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Form;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 
-public class GameLayout extends Form {
-    public GameLayout() {
-        // Set layout. Default is FlowLayout
+public class Game extends Form {
+    private GameWorld gw;
+    private MapView   mv;
+    private ScoreView sv;
+    private ActionEvent e;
+    
+    public Game() {
+        // Create the GameWorld, MapView and ScoreView
+        gw = new GameWorld();
+        mv = new MapView(gw);
+        sv = new ScoreView(gw);
+        // Make the map and score observers of the GamewWorld
+        gw.addObserver(mv);
+        gw.addObserver(sv);
+        gw.notifyObservers();
+        
+        // Initialize the GameWorld
+        gw.init();
+        
+        // Create the Game gui layout
+        this.initGui();
+    }
+    
+    public boolean initGui() {
+    	// Set layout. Default is FlowLayout
         this.setLayout(new BorderLayout());
         Container northContainer = new Container(),
                   nTop           = new Container(),
@@ -47,8 +70,8 @@ public class GameLayout extends Form {
         myToolbar.addCommandToRightBar(helpCommand);
         
         // Add the nTop and nBottom to the northContainer 
-        northContainer.add(BorderLayout.NORTH, nTop);
-        northContainer.add(BorderLayout.NORTH, nBottom);
+        northContainer.add(nTop);
+        northContainer.add(nBottom);
         
         // Add the topmost layout to the GameForm
         // Outter Most Layer
@@ -68,7 +91,7 @@ public class GameLayout extends Form {
         
         Button bNewAlien        = new Button("NewAlien");
         Button bFight           = new Button("Fight");
-        Button bTick            = new Button("Left");
+        Button bTick            = new Button("Tick");
         this.add(BorderLayout.SOUTH, bNewAlien);
         this.add(BorderLayout.SOUTH, bFight);
         this.add(BorderLayout.SOUTH, bTick);
@@ -77,11 +100,16 @@ public class GameLayout extends Form {
         Button bUp              = new Button("Up");
         Button bLeft            = new Button("Left");
         Button bMoveToAstronaut = new Button("MoveToAstronaut");
-        Button bScore = new Button("Score");
+        Button bScore 			= new Button("Score");
         this.add(BorderLayout.WEST, bExpand);
         this.add(BorderLayout.WEST, bUp);
         this.add(BorderLayout.WEST, bLeft);
         this.add(BorderLayout.WEST, bMoveToAstronaut);
         this.add(BorderLayout.WEST, bScore);
+        
+        this.requestFocus();
+        this.setVisible(true);
+        this.show();
+        return true;
     }
 }
