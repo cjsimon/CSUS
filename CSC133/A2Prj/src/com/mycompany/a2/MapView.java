@@ -13,13 +13,12 @@ public class MapView extends Container implements Observer {
     private GameWorld gw;
     
     public MapView(GameWorld gw) {
-        this.setLayout(new BorderLayout());
-        Container c = new Container(new FlowLayout());
-        c.setWidth(1000);
-        c.setHeight(610);
-        c.getAllStyles().setBgTransparency(255);
-        c.getAllStyles().setBorder(Border.createLineBorder(2, ColorUtil.BLUE));
-        add(BorderLayout.CENTER, c);
+        this.setLayout(new BorderLayout(CENTER));
+        //Container c = new Container(new FlowLayout());
+        this.setWidth(gw.WIDTH);
+        this.setHeight(gw.HEIGHT);
+        this.getAllStyles().setBgTransparency(255);
+        this.getAllStyles().setBorder(Border.createLineBorder(2, ColorUtil.BLUE));
         
         // Attach the given GameWorld to this MapView
         // TODO: Implement proxy design pattern 

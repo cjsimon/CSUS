@@ -7,9 +7,7 @@ import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Label;
-import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.FlowLayout;
-import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Border;
 
 public class ScoreView extends Container implements Observer {
@@ -26,25 +24,24 @@ public class ScoreView extends Container implements Observer {
     	// Initialize the label values
         this.updateLabels();
         
-        this.setLayout(new FlowLayout(Component.CENTER));
-        Container topContainer = new Container();
-        int blue = ColorUtil.BLUE;
+        Container scoreViewContainer = new Container();
+        scoreViewContainer.setLayout(new FlowLayout(Component.CENTER));
+        scoreViewContainer.getAllStyles().setBorder(Border.createLineBorder(2, ColorUtil.WHITE));
         
-        score			   .getAllStyles().setFgColor(blue);
-        astronautsCaptured .getAllStyles().setFgColor(blue);
-        aliensCaptured     .getAllStyles().setFgColor(blue);
-        astronautsRemaining.getAllStyles().setFgColor(blue);
-        aliensRemaining    .getAllStyles().setFgColor(blue);
-        sound              .getAllStyles().setFgColor(blue);
-        topContainer.add(score);
-        topContainer.add(astronautsCaptured);
-        topContainer.add(aliensCaptured);
-        topContainer.add(astronautsRemaining);
-        topContainer.add(aliensRemaining);
-        topContainer.add(sound);
+        score			   .getAllStyles().setFgColor(ColorUtil.BLUE);
+        astronautsCaptured .getAllStyles().setFgColor(ColorUtil.BLUE);
+        aliensCaptured     .getAllStyles().setFgColor(ColorUtil.BLUE);
+        astronautsRemaining.getAllStyles().setFgColor(ColorUtil.BLUE);
+        aliensRemaining    .getAllStyles().setFgColor(ColorUtil.BLUE);
+        sound              .getAllStyles().setFgColor(ColorUtil.BLUE);
+        scoreViewContainer.add(score);
+        scoreViewContainer.add(astronautsCaptured);
+        scoreViewContainer.add(aliensCaptured);
+        scoreViewContainer.add(astronautsRemaining);
+        scoreViewContainer.add(aliensRemaining);
+        scoreViewContainer.add(sound);
         
-        topContainer.getAllStyles().setBorder(Border.createLineBorder(2, ColorUtil.WHITE));
-        this.add(topContainer);
+        this.add(scoreViewContainer);
         
         // Attach the given GameWorld to this ScoreView
         // TODO: Implement proxy design pattern
@@ -53,11 +50,11 @@ public class ScoreView extends Container implements Observer {
     
     public boolean updateLabels() {
     	score               = new Label("Score: "                + gw.getScore());
-        astronautsCaptured  = new Label("Captured Astronauts: "  + gw.getCapturedAstronauts());
-        aliensCaptured      = new Label("Captured Aliens: "      + gw.getCapturedAliens());
-        astronautsRemaining = new Label("Astronauts Remaining: " + gw.getRemainingAstronauts());
-        aliensRemaining     = new Label("Aliens Remaining: "     + gw.getRemainingAliens());
-        sound               = new Label("Sound: " 				 + (gw.isSoundOn() ? "On" : "Off"));
+        astronautsCaptured  = new Label("Captured Astronauts: "  ); //+ gw.getCapturedAstronauts());
+        aliensCaptured      = new Label("Captured Aliens: "      ); //+ gw.getCapturedAliens());
+        astronautsRemaining = new Label("Astronauts Remaining: " ); //+ gw.getRemainingAstronauts());
+        aliensRemaining     = new Label("Aliens Remaining: "     ); //+ gw.getRemainingAliens());
+        sound               = new Label("Sound: " 				 ); //+ (gw.isSoundOn() ? "On" : "Off"));
         return true;
     }
     

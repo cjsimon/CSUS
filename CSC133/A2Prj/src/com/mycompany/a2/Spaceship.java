@@ -5,8 +5,6 @@ import com.codename1.ui.geom.Point2D;
 public class Spaceship extends Rescuer implements IGuided {
 	private static Spaceship instance = new Spaceship();
 	
-	// Attributes
-	@SuppressWarnings("unused")
 	// Attribute Bounds
 	// The size attribute of the spaceship which indicates the size of its door is constrained to be a
 	// positive integer between 50 and 1024 (inclusive), and set to 100 when the object is created.

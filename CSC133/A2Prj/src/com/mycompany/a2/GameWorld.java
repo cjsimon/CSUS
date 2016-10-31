@@ -18,9 +18,9 @@ public class GameWorld extends Observable {
     private static Spaceship SPACESHIP;
 
     // Attributes
-    // The origin of the "world" (location (0,0)) is at the lower left hand corner
-    public static final int WIDTH  = 1024;
-    public static final int HEIGHT = 768;
+    // The origin of the "world" (location (0, 0)) is at the lower left hand corner
+    public static int WIDTH  = 0;
+    public static int HEIGHT = 0;
     
     // Game Specific Attributes
     // TODO Make this GameWorld class an abstract class that
@@ -28,13 +28,13 @@ public class GameWorld extends Observable {
     //      variables and logic.
     //
     // The score of the game
-    private int score = 0;
+    private int score        = 0;
     // The number of Astronauts and Aliens captured by the Spaceship
-    int capturedAstronauts = 0;
-    int capturedAliens = 0;
+    int capturedAstronauts   = 0;
+    int capturedAliens       = 0;
     // The number of remaining Astronauts and Aliens in the GameWorld
-    int remainingAstronauts = 0;
-    int remainingAliens = 0;
+    int remainingAstronauts  = 0;
+    int remainingAliens      = 0;
     // The sound state
     boolean isSoundOn = true;
     // The GameObjects in the GameWorld
@@ -132,7 +132,7 @@ public class GameWorld extends Observable {
         if(foundObjects == null || foundObjects.size() == 0) return false;
         
         // Set the location of GameObject o to the location of the randomly chosen object
-        int randomIndex = R.nextInt(0, foundObjects.size());
+        int randomIndex = R.nextInt(0, foundObjects.size()-1);
         GameObject randomObject = ((AbstractList<GameObject>)foundObjects).get(randomIndex);
         o.setLocation(randomObject.getLocation());
         // o was successfully moved
@@ -262,6 +262,8 @@ public class GameWorld extends Observable {
                     // TODO Create score handler within GameObject itself?
                     //      Would this be more modular than handling score in the GameWorld?
                     score -= 10;
+                    capturedAliens++;
+                    remainingAliens--;
                     o = null;
                 }
                 if(collider.getType().equals("Astronaut")) {
@@ -269,7 +271,9 @@ public class GameWorld extends Observable {
                     // The more health, the better
                     // TODO Possibly look into GameObject constants for different score
                     //      multipliers for different events.
-                    score += ((Astronaut) o).getHealth() * 10;
+                    capturedAstronauts++;
+                    remainingAstronauts--;
+                	score += ((Astronaut) o).getHealth() * 10;
                     o = null;
                 }
             }
@@ -313,7 +317,7 @@ public class GameWorld extends Observable {
         // TODO Use printf for readability
         System.out.println("Score:                " + score);
         System.out.println("Rescued Astronauts:   " + capturedAstronauts);
-        System.out.println("Sneaked Aliens:       " + capturedAstronauts);
+        System.out.println("Sneaked Aliens:       " + capturedAliens);
         System.out.println("Remaining Astronauts: " + GameWorld.findCount("Astronauts"));
         System.out.println("Remaining Aliens:     " + GameWorld.findCount("Aliens"));
     }
@@ -345,6 +349,22 @@ public class GameWorld extends Observable {
     }
     public boolean moveSpaceshipRight(int amount) {
         return SPACESHIP.moveRight(amount);
+    }
+    
+    /**
+     * Toggle Sound
+     */
+    public boolean toggleSound() {
+        isSoundOn = !isSoundOn;
+        return isSoundOn;
+    }
+    
+    /**
+     * Exit the game
+     */
+    public boolean exit() {
+        System.exit(0);
+        return true;
     }
     
     // Helper Methods

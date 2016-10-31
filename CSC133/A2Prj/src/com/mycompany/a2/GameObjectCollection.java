@@ -15,7 +15,7 @@ public class GameObjectCollection implements ICollection {
     public boolean remove(Object o) {
         return false;
     }
-    public IIterator getIterator() {
+    public IIterable getIterator() {
         return new GameObjectIterator();
     }
     private class GameObjectIterator implements IIterable {
