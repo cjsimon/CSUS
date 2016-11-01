@@ -13,8 +13,7 @@ public class ScoreCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Fight");
-        // TODO
-        //gw.score();
+        System.out.println("Open Door and Update Score");
+        gw.openDoor();
     }
 }

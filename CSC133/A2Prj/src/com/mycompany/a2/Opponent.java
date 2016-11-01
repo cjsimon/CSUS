@@ -19,25 +19,25 @@ public abstract class Opponent extends GameObject implements IMovable {
 	static final int MIN_SPEED 	   = 0;
 	
 	// Constructors
-	public Opponent() {
-		super();
+	public Opponent(GameWorld gw) {
+		super(gw);
 		this.setSize(R.nextInt(MIN_SIZE, MAX_SIZE));
 		this.setDirection(R.nextInt(MIN_DIRECTION, MAX_DIRECTION));
 		this.setSpeed(MIN_SPEED);
 		this.setColor(DEFAULT_COLOR);
 	}
-	public Opponent(int size) {
-		super(size);
+	public Opponent(int size, GameWorld gw) {
+		super(size, gw);
 		this.setDirection(R.nextInt(MIN_DIRECTION, MAX_DIRECTION));
 		this.setSpeed(MIN_SPEED);
 	}
-	public Opponent(int size, int direction) {
-		super(size);
+	public Opponent(int size, int direction, GameWorld gw) {
+		super(size, gw);
 		this.setDirection(direction);
 		this.setSpeed(MIN_SPEED);
 	}
-	public Opponent(int size, int direction, int speed) {
-		super(size);
+	public Opponent(int size, int direction, int speed, GameWorld gw) {
+		super(size, gw);
 		this.setDirection(direction);
 		this.setSpeed(speed);
 	}

@@ -3,14 +3,21 @@ package com.mycompany.a2;
 import com.codename1.ui.geom.Point2D;
 
 public class Spaceship extends Rescuer implements IGuided {
-	private static Spaceship instance = new Spaceship();
+	private static Spaceship instance = new Spaceship(new GameWorld(false));
 	
 	// Attribute Bounds
 	// The size attribute of the spaceship which indicates the size of its door is constrained to be a
 	// positive integer between 50 and 1024 (inclusive), and set to 100 when the object is created.
 	static final int START_SIZE = 100;
 	static final int MIN_SIZE	= 50;
-	static final int MAX_SIZE	= 1024;	
+	static final int MAX_SIZE	= 1024;
+	// Having a static GameWorld breaks good practice for this singleton class,
+	// because it forces the singleton to be bound to a single, parameterized GameWorld.
+	// This is bad because many GameWorlds can be instantiated with different parameters
+	// and since the singleton class is bound to one of them, it parameterizes the singleton.
+	// TODO: Find a better way to get the width and height from a GameWorld without needing
+	//       to have a reference to it. Perhaps also make GameWorld a singleton?
+	private static GameWorld gw;
 	
 	// Constructors
 	// TODO: This is technically bad practice.
@@ -18,12 +25,25 @@ public class Spaceship extends Rescuer implements IGuided {
 	//       in the singleton indicates that this object shouldn't
 	//       really be using the singleton design pattern.
 	//       Singletons should have an empty body implementation.
-	private Spaceship() { setSize(START_SIZE); }
-	public static Spaceship getInstance() {
+	private Spaceship(GameWorld gw) {
+		// TODO: Fix bad practice
+		super(gw);
+		setSize(START_SIZE);
+	}
+	// TODO: Fix bad practice
+	// We need a way to bind the calling GameWorld to the single Spaceship
+	// This additional parameter is a side effect of having GameWorld as an
+	// instantiatable class
+	public static Spaceship getInstance(GameWorld gw) {
 		if(instance != null) {
+			// Bind the calling GameWorld instance to the singleton Spaceship.
+			// Only bind the instance if it is not already bound to a GameWorld
+			// as to prevent another GameWorld instance from "stealing" the 
+			// parameters that the Spaceship already has from the current GameWorld.
+			if(instance.gw == null) instance.gw = gw; // TODO: Fix bad practice
 			return instance;
 		}
-		return instance = new Spaceship();
+		return instance = new Spaceship(gw);          // TODO: Fix bad practice
 	}
 	
 	// Mutators
@@ -42,7 +62,7 @@ public class Spaceship extends Rescuer implements IGuided {
 		double newY = y + dy;
 		double x = this.getLocation().getX();
 		
-		boolean withinBounds = 0 < newY && newY < GameWorld.HEIGHT;
+		boolean withinBounds = 0 < newY && newY < gw.getHeight();
 		if(!withinBounds) return false;
 		return this.setLocation(new Point2D(x, newY));
 	}
@@ -58,7 +78,7 @@ public class Spaceship extends Rescuer implements IGuided {
 		double newX = x + dx;
 		double y = this.getLocation().getY();
 		
-		boolean withinBounds = 0 < newX && newX < GameWorld.WIDTH;
+		boolean withinBounds = 0 < newX && newX < gw.getWidth();
 		if(!withinBounds) return false;
 		return this.setLocation(new Point2D(newX, y));
 	}

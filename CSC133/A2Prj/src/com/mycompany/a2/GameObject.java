@@ -16,33 +16,51 @@ public abstract class GameObject {
 	@SuppressWarnings("deprecation")
 	private final String type = this.getClass().getSimpleName().toString();
 	private int size;
-	// The point (X,Y) is the center of the object.
+	// The point (X, Y) is the center of the object.
 	private Point2D location;
 	private int color;
 	BoundingBox collisionMask;
 	// Attribute Bounds
 	// All game objects have a location, defined by floating point non-negative values X and Y,
-	// within the range 0.0 to GameWorld.WIDTH and 0.0 to GameWorld.HEIGHT respectively.
-	static final double MIN_X_LOCATION = 0.0;
-	static final double MIN_Y_LOCATION = 0.0;
-	static final double MAX_X_LOCATION = (double)GameWorld.WIDTH;
-	static final double MAX_Y_LOCATION = (double)GameWorld.HEIGHT;
-	static final int 	DEFAULT_COLOR  = ColorUtil.rgb(0, 0, 0);
+	// within the range 0.0 to GameWorld.width and 0.0 to GameWorld.height respectively.
+	private double minXLocation;
+	private double minYLocation;
+	private double maxXLocation;
+	private double maxYLocation;
+	// GameWorld instance that the GameObject is associated with.
+	// Used to get properties from the room
+	private GameWorld gw;
+	// The default color
+	static final int DEFAULT_COLOR = ColorUtil.rgb(0, 0, 0);
 	
 	// Constructors
-	public GameObject() {
-		this(0, randomLocation(), DEFAULT_COLOR);
+	// TODO: Fix random location so that it can refer to the location bounds
+	//       of an instance of a GameObject while still being a static method.
+	// TODO: Find a better way to get width and height from GameWorld without
+	//       the need to have a reference to it.
+	public GameObject(GameWorld gw) {
+		this(0, new Point2D(0.0, 0.0)/*randomLocation()*/, DEFAULT_COLOR, gw);
 	}
-	public GameObject(int size) {
-		this(size, randomLocation(), DEFAULT_COLOR);
+	public GameObject(int size, GameWorld gw) {
+		this(size, new Point2D(0.0, 0.0)/*randomLocation()*/, DEFAULT_COLOR, gw);
 	}
-	public GameObject(int size, Point2D location) {
-		this(size, location, DEFAULT_COLOR);
+	public GameObject(int size, Point2D location, GameWorld gw) {
+		this(size, location, DEFAULT_COLOR, gw);
 	}
-	public GameObject(int size, Point2D location, int color) {
+	public GameObject(int size, Point2D location, int color, GameWorld gw) {
 		this.setSize(size);
+		this.setLocationBounds(0.0, 0.0, gw.getWidth(), gw.getHeight());
 		this.setLocation(location);
 		this.setColor(color);
+		// Bind the object to a specific GameWorld
+		// TODO: If this implementation is to be kept,
+		//       then it would be better to make the
+		//       GameWorld a singleton, so that all
+		//       GameObjects are only bound to a single
+		//       gw at a time, as to prevent a GameObject
+		//       from having conflicting location bounds
+		//       from many different GameWorlds.
+		this.gw = gw;
 	}
 	
 	// Accessors
@@ -61,6 +79,18 @@ public abstract class GameObject {
 	public BoundingBox getCollisionMask() {
 		return collisionMask;
 	}
+	public double getMinXLocation() {
+		return minXLocation;
+	}
+	public double getMinYLocation() {
+		return minYLocation;
+	}
+	public double getMaxXLocation() {
+		return maxXLocation;
+	}
+	public double getMaxYLocation() {
+		return maxYLocation;
+	}
 	
 	// Mutators
 	public boolean setSize(int size) {
@@ -69,11 +99,25 @@ public abstract class GameObject {
 		calculateCollisionMask();
 		return true;
 	}
+	public boolean setLocationBounds(double minX, double minY, double maxX, double maxY) {
+		boolean withinBounds = (maxX - minX > 0) && (maxY - minY > 0);
+		if(withinBounds) {
+			this.minXLocation = minX;
+			this.minYLocation = minY;
+			this.maxXLocation = maxX;
+			this.maxYLocation = maxY;
+		}
+		return withinBounds;
+	}
 	// All GameObjects provide the ability for external code to obtain and change their location.
 	public boolean setLocation(Point2D location) {
+		double minXLocation = this.getMinXLocation();
+		double minYLocation = this.getMinYLocation();
+		double maxXLocation = this.getMaxXLocation();
+		double maxYLocation = this.getMaxYLocation();
 		boolean withinBounds = (
-				(MIN_X_LOCATION <= location.getX() && location.getX() <= MAX_X_LOCATION)
-				&& (MIN_Y_LOCATION <= location.getY() && location.getY() <= MAX_Y_LOCATION));
+				(minXLocation <= location.getX() && location.getX() <= maxXLocation)
+				&& (minYLocation <= location.getY() && location.getY() <= maxYLocation));
 		if(withinBounds) this.location = location;
 		return withinBounds;
 	}
@@ -83,10 +127,14 @@ public abstract class GameObject {
 	}
 	
 	// Helper Methods
-	private static Point2D randomLocation() {
+	private Point2D randomLocation() {
+		double minXLocation = this.getMinXLocation();
+		double minYLocation = this.getMinYLocation();
+		double maxXLocation = this.getMaxXLocation();
+		double maxYLocation = this.getMaxYLocation();
 		return new Point2D(
-				R.nextDouble(MIN_X_LOCATION, MAX_X_LOCATION),
-				R.nextDouble(MIN_Y_LOCATION, MAX_Y_LOCATION));
+				R.nextDouble(minXLocation, maxXLocation),
+				R.nextDouble(minYLocation, maxYLocation));
 	}
 	
 	/**

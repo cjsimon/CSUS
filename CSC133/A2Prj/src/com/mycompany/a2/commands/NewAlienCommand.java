@@ -2,6 +2,7 @@ package com.mycompany.a2.commands;
 
 import com.codename1.ui.Command;
 import com.codename1.ui.events.ActionEvent;
+import com.mycompany.a2.Alien;
 import com.mycompany.a2.GameWorld;
 
 public class NewAlienCommand extends Command {
@@ -13,8 +14,7 @@ public class NewAlienCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Fight");
-        // TODO
-        //gw.addAlien();
+        System.out.println("Add Alien");
+        gw.addAlien();
     }
 }

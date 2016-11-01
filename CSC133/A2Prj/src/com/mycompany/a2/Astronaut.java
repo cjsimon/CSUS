@@ -15,16 +15,16 @@ public class Astronaut extends Opponent {
 	static final int SPEED_CONSTANT = 1;
 	
 	// Constructors
-	public Astronaut() {
-		super();
+	public Astronaut(GameWorld gw) {
+		super(gw);
 		this.setSize(R.nextInt(MIN_SIZE, MAX_SIZE));
 		this.setDirection(R.nextInt(MIN_DIRECTION, MAX_DIRECTION));
 		this.setSpeed(MIN_SPEED);
 		this.setColor(DEFAULT_COLOR);
 		this.setHealth(DEFAULT_HEALTH);
 	}
-	public Astronaut(int size) {
-		super(size);
+	public Astronaut(int size, GameWorld gw) {
+		super(size, gw);
 		this.setHealth(DEFAULT_HEALTH);
 	}
 	

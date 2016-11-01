@@ -20,7 +20,7 @@ public class Game extends Form {
     
     public Game() {
         // Create the GameWorld, MapView and ScoreView
-        gw = new GameWorld();
+        gw = new GameWorld(true);
         mv = new MapView(gw);
         sv = new ScoreView(gw);
         // Make the map and score observers of the GamewWorld
@@ -71,7 +71,10 @@ public class Game extends Form {
         toolbar.addCommandToSideMenu(helpCommand);
         toolbar.addCommandToSideMenu(aboutCommand);
         toolbar.addCommandToSideMenu(exitCommand);
-        
+        // Command keyListeners
+        this.addKeyListener('s', scoreCommand);
+        this.addKeyListener('x', exitCommand);
+        this.addKeyListener('h', helpCommand);
         // Add helpCommand to the right of the toolbar
         toolbar.addCommandToRightBar(helpCommand);
         
@@ -103,7 +106,6 @@ public class Game extends Form {
         this.addKeyListener('d', downCommand);
         this.addKeyListener('r', rightCommand);
         this.addKeyListener('a', moveToAlienCommand);
-        this.addKeyListener('s', scoreCommand);
         // East Buttons
         // Buttons invoke commands
         SideButton bContract    = new SideButton("Contract", contractCommand);

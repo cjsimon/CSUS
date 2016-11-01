@@ -13,7 +13,7 @@ public class UpCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Fight");
+        System.out.println("Up");
         gw.moveSpaceshipUp(10);
     }
 }

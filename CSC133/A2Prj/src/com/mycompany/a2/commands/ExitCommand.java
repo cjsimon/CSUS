@@ -1,6 +1,7 @@
 package com.mycompany.a2.commands;
 
 import com.codename1.ui.Command;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.events.ActionEvent;
 import com.mycompany.a2.GameWorld;
 
@@ -13,6 +14,6 @@ public class ExitCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        gw.exit();
+    	if(Dialog.show("Quit", "Are you sure you want to quit?", "Yes", "No")) gw.exit();
     }
 }

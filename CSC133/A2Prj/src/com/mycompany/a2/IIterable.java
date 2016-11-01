@@ -1,9 +1,9 @@
 package com.mycompany.a2;
 
 public interface IIterable {
-    boolean hasNext();
-    Object getNext();
-    public void remove();
-    public int getIndex();
-    public Object objectAt(int i);
+    public boolean     hasNext();
+    public GameObject  getNext();
+    public int         getIndex();
+    public GameObject  get(int location);
+    public GameObject  remove();
 }

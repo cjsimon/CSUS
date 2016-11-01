@@ -1,9 +1,7 @@
 package com.mycompany.a2;
 
-import java.util.AbstractList;
 import java.util.Observable;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 import com.codename1.maps.BoundingBox;
 import com.codename1.maps.Coord;
@@ -19,8 +17,8 @@ public class GameWorld extends Observable {
 
     // Attributes
     // The origin of the "world" (location (0, 0)) is at the lower left hand corner
-    public static int WIDTH  = 0;
-    public static int HEIGHT = 0;
+    private int width       = 1024;
+    private int height      = 768;
     
     // Game Specific Attributes
     // TODO Make this GameWorld class an abstract class that
@@ -28,23 +26,24 @@ public class GameWorld extends Observable {
     //      variables and logic.
     //
     // The score of the game
-    private int score        = 0;
+    private int score       = 0;
     // The number of Astronauts and Aliens captured by the Spaceship
-    int capturedAstronauts   = 0;
-    int capturedAliens       = 0;
+    int capturedAstronauts  = 0;
+    int capturedAliens      = 0;
     // The number of remaining Astronauts and Aliens in the GameWorld
-    int remainingAstronauts  = 0;
-    int remainingAliens      = 0;
+    int remainingAstronauts = 0;
+    int remainingAliens     = 0;
     // The sound state
     boolean isSoundOn = true;
     // The GameObjects in the GameWorld
-    private static AbstractList<GameObject> GameObjects = new Vector<GameObject>();
+    private static GameObjectCollection GameObjects = new GameObjectCollection();
     
     // Constructors
-    public GameWorld() {
+    public GameWorld() {}
+    public GameWorld(boolean init) {
         // Why not call init in here instead of in the Game() constructor?
         // @see com.mycompany.myapp.Game()
-        //init();
+        if(init) init();
     }
     
     // Accessors
@@ -63,24 +62,38 @@ public class GameWorld extends Observable {
     public int getRemainingAliens() {
     	return remainingAliens;
 	}
+    public int getWidth() {
+		return width; 
+	}
+	public int getHeight() {
+		return height; 
+	}
     public boolean isSoundOn() {
     	return isSoundOn;
     }
     
+    // Mutators
+    public void setWidth(int width) {
+		this.width = width; 
+	}
+	public void setHeight(int height) {
+		this.height = height; 
+	}
+	
     /**
      * Creates the initial game objects and layout
      */
     public void init() {
-        int initialAstronauts = 4;
-        int initialAliens = 3;
+        int initialAstronauts = remainingAstronauts = 4;
+        int initialAliens     = remainingAliens     = 3;
         
         // Add the spaceship, astronauts and aliens
-        this.addObject(SPACESHIP = Spaceship.getInstance());
+        this.addObject(SPACESHIP = Spaceship.getInstance(this));
         for(int a = 0; a < initialAstronauts; a++) {
-            this.addObject(new Astronaut());
+            this.addObject(new Astronaut(this));
         }
         for(int a = 0; a < initialAliens; a++) {
-            this.addObject(new Alien());
+            this.addObject(new Alien(this));
         }       
     }
     
@@ -88,19 +101,19 @@ public class GameWorld extends Observable {
      * Update function that runs on every iteration of the game
      */
     public void update() {
-        // Apply properties to all GameObjects in the world
+        IIterable i = GameObjects.getIterator();
+    	// Apply properties to all GameObjects in the world
         // @TODO As per the assignment specification, create a custom iterator class
         // @TODO to loop through each object. See moveTo(String filter) for duplicate code
-        if(GameObjects != null && !GameObjects.isEmpty()) {
-            for(Object obj : GameObjects) {
-                // Move all objects that can move.
-                // Some game objects are moving, meaning that they provide an interface that allows other
-                // objects to tell them to move. Telling a moving object to move() causes the object to update
-                // its location.
-                if(obj instanceof IMovable) {
-                    IMovable mObj = (IMovable)obj;
-                    mObj.move();
-                }
+        while(i.hasNext()) {
+        	Object obj = i.getNext();
+            // Move all objects that can move.
+            // Some game objects are moving, meaning that they provide an interface that allows other
+            // objects to tell them to move. Telling a moving object to move() causes the object to update
+            // its location.
+            if(obj instanceof IMovable) {
+                IMovable mObj = (IMovable)obj;
+                mObj.move();
             }
         }
     }
@@ -126,14 +139,14 @@ public class GameWorld extends Observable {
     // MoveTo using GameObject filter
     public final boolean moveTo(GameObject o, String filter) {
         // Generate a list of the candidate objects according to the given filter
-        AbstractList<GameObject> foundObjects = GameWorld.find(filter);
+        GameObjectCollection foundObjects = GameWorld.find(filter);
         
         // Exit prematurely if no objects are found
         if(foundObjects == null || foundObjects.size() == 0) return false;
         
         // Set the location of GameObject o to the location of the randomly chosen object
-        int randomIndex = R.nextInt(0, foundObjects.size()-1);
-        GameObject randomObject = ((AbstractList<GameObject>)foundObjects).get(randomIndex);
+        int randomIndex = R.nextInt(0, foundObjects.size() - 1);
+        GameObject randomObject = foundObjects.get(randomIndex);
         o.setLocation(randomObject.getLocation());
         // o was successfully moved
         return true;
@@ -145,30 +158,27 @@ public class GameWorld extends Observable {
      * @return AbstractList<GameObject>
      * 
      * @TODO Create filter parser to create more advanced queries with multiple GameObject type support
-     * @TODO Abstract code by using a custom iterable class, as per assignment request  
      * @link http://stackoverflow.com/q/12203003/2104168
      */
-    private static final AbstractList<GameObject> findMany(String filter, boolean multiple) {
-        // Get all objects from the GameWorld
-        AbstractList<GameObject> objects = GameWorld.find("*");
-        AbstractList<GameObject> foundObjects = new Vector<GameObject>();
+    private static final GameObjectCollection findMany(String filter, boolean multiple) {
+        GameObjectCollection foundObjects = new GameObjectCollection();
         
-        if(objects != null && !objects.isEmpty()) { 
-            // Iterate through each object
-            for(GameObject obj : objects) {
-                // Check for each filter in each object
-                for(String objectFilter : split(filter, "|")) {
-                    if(obj.getType().equals(objectFilter)) {
-                        foundObjects.add(obj);
-                        if(!multiple) return foundObjects;
-                    }
+        // Iterate through each object
+        IIterable i = GameObjects.getIterator();
+        while(i.hasNext()) {
+        	GameObject obj = i.getNext();
+            // Check for each filter in each object
+            for(String objectFilter : split(filter, "|")) {
+                if(obj.getType().equals(objectFilter)) {
+                    foundObjects.add(obj);
+                    if(!multiple) return foundObjects;
                 }
             }
         }
         // No GameObject was found
         return foundObjects;
     }
-    public static final AbstractList<GameObject> find(String filter) {
+    public static final GameObjectCollection find(String filter) {
         if(filter == "*") return GameWorld.findAll(); // Get all objects
         // Find and return multiple GamoeObjects from the list if applicable
         return GameWorld.findMany(filter, true);
@@ -176,13 +186,13 @@ public class GameWorld extends Observable {
     // TODO: Create find N instead of 1 or many
     public static final GameObject findOne(String filter) {
         // Find and return one object from the list
-        return ((AbstractList<GameObject>)GameWorld.findMany(filter, false)).get(0);
+        return (GameWorld.findMany(filter, false)).get(0);
     }
-    private static final AbstractList<GameObject> findAll() {
+    private static final GameObjectCollection findAll() {
         return GameObjects;
     }
     private static final GameObject findRandom(String filter) {
-        AbstractList<GameObject> objects = GameWorld.find(filter);
+        GameObjectCollection objects = GameWorld.find(filter);
         int index = R.nextInt(0, objects.size());
         GameObject randomObject = objects.get(index);
         return randomObject;
@@ -245,12 +255,9 @@ public class GameWorld extends Observable {
         GameObject collider = SPACESHIP;
         BoundingBox colliderCollisionMask = collider.getCollisionMask();
         
-        // TODO Create an exclusion filter for selection to
-        // exclude the object being checked for collision against
-        AbstractList<GameObject> objects = GameWorld.find("*");
-        
-        // Check each object for a collision
-        for(GameObject o : objects) {
+        IIterable i = GameObjects.getIterator();
+        while(i.hasNext()) {
+        	GameObject o = i.getNext();
             // Don't check for collision for the colliding object
             if(o == collider) continue;
             Point2D oLocation = o.getLocation();
@@ -278,7 +285,8 @@ public class GameWorld extends Observable {
                 }
             }
         }
-        
+        this.setChanged();
+		this.notifyObservers();
     }
 
     /**
@@ -286,7 +294,7 @@ public class GameWorld extends Observable {
      * @return boolean
      */
     public boolean colAlien() {
-        AbstractList<GameObject> aliens = GameWorld.find("Alien");
+        GameObjectCollection aliens = GameWorld.find("Alien");
         // There must be at least two aliens in the GameWorld
         if(aliens.size() < 2) return false;
         
@@ -294,7 +302,7 @@ public class GameWorld extends Observable {
         Alien randomAlien = (Alien)GameWorld.findRandom("Alien");
         
         // Create a new alien in the location of the randomly selected alien
-        Alien newAlien = new Alien();
+        Alien newAlien = new Alien(this);
         newAlien.setLocation(randomAlien.getLocation());
         return this.addObject(newAlien);
     }
@@ -303,7 +311,13 @@ public class GameWorld extends Observable {
         Astronaut randomAstronaut = (Astronaut)GameWorld.findRandom("Astronaut");
         return randomAstronaut.hit();
     }
-
+    public boolean addAlien() {
+    	this.addObject(new Alien(this));
+    	remainingAliens++;
+    	this.setChanged();
+		this.notifyObservers();
+    	return true;
+    }
     /**
      * Print the points of game state values:
      * 1. Current score
@@ -314,7 +328,7 @@ public class GameWorld extends Observable {
      * Output should be appropriately labeled in easily readable format
      */
     public void printObjects() {
-        // TODO Use printf for readability
+        // TODO Use printf for readability, though it doesn't seem to be implemented in codename1...
         System.out.println("Score:                " + score);
         System.out.println("Rescued Astronauts:   " + capturedAstronauts);
         System.out.println("Sneaked Aliens:       " + capturedAliens);
@@ -326,11 +340,11 @@ public class GameWorld extends Observable {
      * Print out all objects in the GameWorld
      */
     public void printMap() {
-        if(GameObjects != null && !GameObjects.isEmpty()) {
-            for(Object obj : GameObjects) {
-                // Print each object
-                System.out.println(obj);
-            }
+        IIterable i = GameObjects.getIterator();
+    	while(i.hasNext()) {
+    		GameObject obj = i.getNext();
+    		// Print each object
+            System.out.println(obj);
         }
     }
     
@@ -356,6 +370,8 @@ public class GameWorld extends Observable {
      */
     public boolean toggleSound() {
         isSoundOn = !isSoundOn;
+        this.setChanged();
+		this.notifyObservers();
         return isSoundOn;
     }
     

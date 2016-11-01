@@ -14,19 +14,19 @@ public class Alien extends Opponent {
 	// All objects of the same class have the same initial color
 	private int color = ColorUtil.GREEN;
 	
-	public Alien() {
-		super();
+	public Alien(GameWorld gw) {
+		super(gw);
 		this.setSize(R.nextInt(MIN_SIZE, MAX_SIZE));
 		this.setDirection(R.nextInt(MIN_DIRECTION, MAX_DIRECTION));
 		this.setSpeed(DEFAULT_SPEED * SPEED_CONSTANT);
 		this.setColor(DEFAULT_COLOR);
 	}
-	public Alien(int size) {
-		super(size);
+	public Alien(int size, GameWorld gw) {
+		super(size, gw);
 		super.setSpeed(DEFAULT_SPEED * SPEED_CONSTANT);
 	}
-	public Alien(int size, int direction) {
-		super(size, direction);
+	public Alien(int size, int direction, GameWorld gw) {
+		super(size, direction, gw);
 		super.setSpeed(DEFAULT_SPEED * SPEED_CONSTANT);
 	}
 	

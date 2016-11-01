@@ -13,14 +13,17 @@ import com.codename1.ui.plaf.Border;
 public class ScoreView extends Container implements Observer {
     private GameWorld gw;
     
-    private Label score;
-    private Label astronautsCaptured;
-    private Label aliensCaptured;
-    private Label astronautsRemaining;
-    private Label aliensRemaining;
-    private Label sound;
+    private Label score                = new Label();
+    private Label astronautsCaptured   = new Label();
+    private Label aliensCaptured       = new Label();
+    private Label astronautsRemaining  = new Label();
+    private Label aliensRemaining      = new Label();
+    private Label sound                = new Label();
     
     public ScoreView(GameWorld gw) {
+    	// Attach the given GameWorld to this ScoreView
+        // TODO: Implement proxy design pattern
+        this.gw = gw;
     	// Initialize the label values
         this.updateLabels();
         
@@ -42,19 +45,16 @@ public class ScoreView extends Container implements Observer {
         scoreViewContainer.add(sound);
         
         this.add(scoreViewContainer);
-        
-        // Attach the given GameWorld to this ScoreView
-        // TODO: Implement proxy design pattern
-        this.gw = gw;
     }
     
     public boolean updateLabels() {
-    	score               = new Label("Score: "                + gw.getScore());
-        astronautsCaptured  = new Label("Captured Astronauts: "  ); //+ gw.getCapturedAstronauts());
-        aliensCaptured      = new Label("Captured Aliens: "      ); //+ gw.getCapturedAliens());
-        astronautsRemaining = new Label("Astronauts Remaining: " ); //+ gw.getRemainingAstronauts());
-        aliensRemaining     = new Label("Aliens Remaining: "     ); //+ gw.getRemainingAliens());
-        sound               = new Label("Sound: " 				 ); //+ (gw.isSoundOn() ? "On" : "Off"));
+    	if(gw == null) return false;
+    	score               .setText("Score: "                + gw.getScore());
+        astronautsCaptured  .setText("Captured Astronauts: "  + gw.getCapturedAstronauts());
+        aliensCaptured      .setText("Captured Aliens: "      + gw.getCapturedAliens());
+        astronautsRemaining .setText("Astronauts Remaining: " + gw.getRemainingAstronauts());
+        aliensRemaining     .setText("Aliens Remaining: "     + gw.getRemainingAliens());
+        sound               .setText("Sound: " 				  + (gw.isSoundOn() ? "On" : "Off"));
         return true;
     }
     
@@ -62,5 +62,6 @@ public class ScoreView extends Container implements Observer {
         // Update labels from data in GameWorld
         this.updateLabels();
         this.setVisible(true);
+        System.out.println("Labels Updated!");
     }
 }

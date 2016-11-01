@@ -13,7 +13,7 @@ public class SoundCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Fight");
+        System.out.println("Toggle Sound");
         gw.toggleSound();
     }
 }

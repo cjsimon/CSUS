@@ -3,23 +3,36 @@ package com.mycompany.a2;
 import java.util.Vector;
 
 public class GameObjectCollection implements ICollection {
-    private Vector<Object> gameObjects;
+    private Vector<GameObject> gameObjects;
     
     public GameObjectCollection() {
-        gameObjects = new Vector();
+        gameObjects = new Vector<GameObject>();
     }
 
-    public void add(Object o) {
+    public GameObject get(int location) {
+    	return gameObjects.get(location);
+    }
+    
+    public boolean add(GameObject o) {
         gameObjects.addElement(o);
+		return true;
     }
-    public boolean remove(Object o) {
-        return false;
+    
+    public GameObject remove(int i) {
+    	return gameObjects.remove(i);
     }
+    
+    public int size() {
+    	return gameObjects.size();
+	}
+    
     public IIterable getIterator() {
         return new GameObjectIterator();
     }
+    
     private class GameObjectIterator implements IIterable {
-        private int index;
+        // The current index or size of the collection
+    	private int index;
         
         public GameObjectIterator() {
             index = -1;
@@ -31,20 +44,22 @@ public class GameObjectCollection implements ICollection {
             return true;
         }
         
-        public Object getNext() {
-            return(gameObjects.elementAt(++index));
+        public GameObject getNext() {
+        	// Get the next GameObject and increment the index
+        	return(gameObjects.elementAt(++index));
         }
         
-        public void remove() {
-            gameObjects.remove(index);
+        public GameObject remove() {
+            // Remove the GameObject at the current index
+        	return gameObjects.remove(index);
         }
         
         public int getIndex() {
             return index;
         }
         
-        public Object objectAt(int i) {
-            return gameObjects.get(i);
+        public GameObject get(int location) {
+            return gameObjects.get(location);
         }
     }
 }
