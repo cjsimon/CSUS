@@ -3,48 +3,126 @@ List the cars (license, model and year, Amount_of_Damage)
 that have been involved in any accidents.
 Order the result by license in descending order.
 
-SELECT c.License, Model, Year
-FROM   CAR AS c, HAD AS h
-WHERE  h.License = c.License 
-ORDER BY h.License DESC
+SELECT   c.License, c.Model, c.Year, a.Amount_of_Damage
+FROM     CAR AS c, HAD AS h, ACCIDENT AS a
+WHERE    c.License = h.License AND h.AccidentNo = a.Accident_No
+ORDER BY c.License DESC;
 
-+-------------------+
-|                   |
-|                   |
-|                   |
-|                   |
-|                   |
-|                   |
-+-------------------+
++-----------------+-----------------+------+------------------+
+| License         | Model           | Year | Amount_of_Damage |
++-----------------+-----------------+------+------------------+
+| 938IGF9823Q4689 | Honda Civic     | 2008 |            56.50 |
+| 938IGF9823Q4689 | Honda Civic     | 2008 |            56.50 |
+| 938IGF9823Q4689 | Honda Civic     | 2008 |            56.50 |
+| 938IGF9823Q4689 | Honda Civic     | 2008 |             9.50 |
+| 90Y52U08H5O0581 | Honda Accord    | 2004 |            29.23 |
+| 848V27W97T15180 | Honda Accord    | 2004 |            84.09 |
+| 671963LH8156012 | Toyota Camry    | 2013 |            59.87 |
+| 670396902356824 | Tesla           | 2015 |            26.81 |
+| 63S5P4A87I52168 | Honda Accord    | 2004 |            43.69 |
+| 63S5P4A87I52168 | Honda Accord    | 2004 |            89.95 |
+| 63S5P4A87I52168 | Honda Accord    | 2004 |           100.00 |
+| 632A4987O169876 | Mercedes-Benz E | 2014 |            59.87 |
+| 58962N1E97R463X | Toyota Prius    | 2013 |             0.01 |
+| 3972696I5272480 | Hyundai Sonata  | 2011 |            87.41 |
+| 2A9291758153786 | Honda Accord    | 2004 |            10.10 |
+| 2365984K6917018 | Honda Odyssey   | 2016 |            59.87 |
+| 17212490947B686 | Toyota Prius    | 2013 |            41.44 |
+| 15350570Q650541 | Kia Optima      | 2003 |            77.81 |
+| 1276406J5769096 | Chevrolet Camar | 2015 |            94.12 |
+| 09D462049651687 | Toyota Corolla  | 2012 |            51.83 |
++-----------------+-----------------+------+------------------+
+20 rows in set (0.00 sec)
+
+
 
 Query 2:
 List the cars that have more than two accidents.
 List license and number of accidents.
 
-SELECT c.License, COUNT(*) AS NumberOfAccidents
-FROM   CAR AS c, HAD AS h
-WHERE  c.License = h.license AND (SELECT COUNT(*)
-                                  FROM   CAR AS c, HAD AS h
-                                  WHERE  c.License = h.License) > 2
+SELECT   c.License, COUNT(*) AS NumberOfAccidents
+FROM     CAR AS c, HAD AS h, ACCIDENT AS a
+WHERE    c.License = h.License AND h.AccidentNo = a.Accident_No
+GROUP BY c.License
+HAVING   NumberOfAccidents > 2;
+
++-----------------+-------------------+
+| License         | NumberOfAccidents |
++-----------------+-------------------+
+| 63S5P4A87I52168 |                 3 |
+| 938IGF9823Q4689 |                 4 |
++-----------------+-------------------+
+2 rows in set (0.00 sec)
+
+
 
 Query 3:
 List information (driver name, amount of damage, license, model and SSN)
 about the accidents in which the owner of the car are involved
 i.e., the Driver_Name and Customer_Name are the same.
 
-SELECT Driver_Name, Amount_of_Damage, License, Model, SSN
-FROM   CUSTOMER AS cm, CAR AS cr, HAD AS h, ACCIDENT AS a
-WHERE  cm.
+SELECT a.Driver_Name, a.Amount_of_Damage, cr.License, cr.Model, cm.SSN
+FROM   CUSTOMER AS cm, CAR AS cr, ACCIDENT AS a, HAD AS h, OWNS AS o
+WHERE  cm.SSN = o.SSN
+       AND o.License = cr.License
+       AND cr.License = h.License
+       AND h.AccidentNo = a.Accident_No
+       AND cm.Customer_Name = a.Driver_Name;
+
++--------------------+------------------+-----------------+-----------------+-----------+
+| Driver_Name        | Amount_of_Damage | License         | Model           | SSN       |
++--------------------+------------------+-----------------+-----------------+-----------+
+| Savanah Paige      |            59.87 | 2365984K6917018 | Honda Odyssey   | 764892315 |
+| Myong Nevers       |            94.12 | 1276406J5769096 | Chevrolet Camar | 789456123 |
+| Minerva Pellegrini |            84.09 | 848V27W97T15180 | Honda Accord    | 195378624 |
+| Rosaria Hartline   |             0.01 | 58962N1E97R463X | Toyota Prius    | 675489312 |
+| Julienne Alexandra |            41.44 | 17212490947B686 | Toyota Prius    | 963852741 |
+| Glynis Turley      |            87.41 | 3972696I5272480 | Hyundai Sonata  | 987123654 |
+| Cherry Penna       |            29.23 | 90Y52U08H5O0581 | Honda Accord    | 246853179 |
+| Taylor Andrews     |            10.10 | 2A9291758153786 | Honda Accord    | 734629815 |
+| Jene Halladay      |            26.81 | 670396902356824 | Tesla           | 624589317 |
+| Vernell Frisina    |            77.81 | 15350570Q650541 | Kia Optima      | 987654321 |
++--------------------+------------------+-----------------+-----------------+-----------+
+10 rows in set (0.00 sec)
 
 
 
 Query 4:
 Obtain the information of any policy (policy number, policy rate and policy details) whose policy rate is higher than the rate of policy number 12.
 
+SELECT   p.PolicyNo, p.Policy_Rate, p.Policy_Details
+FROM     POLICY AS p
+GROUP BY p.Policy_Rate
+HAVING   p.Policy_Rate > (SELECT DISTINCT Policy_Rate
+                          FROM   POLICY
+                          WHERE  PolicyNo = 12);
+
++----------+-------------+-----------------------------------+
+| PolicyNo | Policy_Rate | Policy_Details                    |
++----------+-------------+-----------------------------------+
+|  7531264 |       99.99 | Will cover 99.99% of damages      |
+|  9846251 |      100.99 | Head injury covered!              |
+|  8976235 |      411.64 | Batteries not included.           |
+|  7846206 |      420.05 | Blazing insurance!                |
+|  5462197 |      654.23 | This better cover everything.     |
+|  6784503 |      777.07 | You're lucky you can afford this. |
++----------+-------------+-----------------------------------+
+6 rows in set (0.00 sec)
+
 
 
 Query 5:
 Consider all policies, list the lowest rate, highest rate, and average rate.
+
+SELECT MIN(Policy_Rate), MAX(Policy_Rate), AVG(Policy_Rate)
+FROM   POLICY;
+
++------------------+------------------+------------------+
+| MIN(Policy_Rate) | MAX(Policy_Rate) | AVG(Policy_Rate) |
++------------------+------------------+------------------+
+|             1.99 |           777.07 |       246.336364 |
++------------------+------------------+------------------+
+1 row in set (0.00 sec)
 
 
 
@@ -52,11 +130,37 @@ Query 6: Get information
 (accident number, driver name, accident date and amount of damage)
 of the accident which has the highest amount of damage among all accidents.
 
+SELECT Accident_No, Driver_Name, Accident_Date, Amount_of_Damage
+FROM   ACCIDENT
+WHERE  Amount_of_Damage = (SELECT MAX(Amount_of_Damage) FROM ACCIDENT);
+
++-------------+----------------+---------------+------------------+
+| Accident_No | Driver_Name    | Accident_Date | Amount_of_Damage |
++-------------+----------------+---------------+------------------+
+|     4987951 | Hester Plourde | 2004-12-05    |           100.00 |
++-------------+----------------+---------------+------------------+
+1 row in set (0.00 sec)
+
 
 
 Query 7: Get the information (customer name, city and state)
 about the customers who own cars with the model of ‘Honda Accord’.
 Also get those cars’ license, and year made.
+
+SELECT cm.Customer_Name, cm.City, cm.State, cr.License, cr.Year
+FROM   CUSTOMER AS cm, CAR AS cr, OWNS AS o
+WHERE  cm.SSN = o.SSN AND o.License = cr.License AND cr.Model = 'Honda Accord';
+
++------------------------+------------+------------+-----------------+------+
+| Customer_Name          | City       | State      | License         | Year |
++------------------------+------------+------------+-----------------+------+
+| Francisco Rothenberger | Raleigh    | Iowa       | 91769Z81G830625 | 2004 |
+| Minerva Pellegrini     | Dallas     | Illinois   | 848V27W97T15180 | 2004 |
+| Cherry Penna           | Honolulu   | New York   | 90Y52U08H5O0581 | 2004 |
+| Taylor Andrews         | Fresno     | New Jersey | 2A9291758153786 | 2004 |
+| Refugio Hoggan         | North Hemp | Ohio       | 63S5P4A87I52168 | 2004 |
++------------------------+------------+------------+-----------------+------+
+5 rows in set (0.00 sec)
 
 
 
@@ -65,9 +169,60 @@ Query 8: Retrieve the customers’ information
 who live either in ‘Roseville’ or ‘Sunrise’.
 (‘Roseville’ and ‘Sunrise’ are city names)
 
+SELECT SSN, Customer_Name, Street, City, Zip
+FROM   CUSTOMER
+WHERE  City IN ('Roseville', 'Sunrise');
+
++-----------+---------------+-----------------+-----------+-------+
+| SSN       | Customer_Name | Street          | City      | Zip   |
++-----------+---------------+-----------------+-----------+-------+
+| 321698621 | Marry Monroe  | Victory Street  | Roseville | 95764 |
+| 521987217 | Jeff Hoggan   | Cave Route      | Roseville | 95764 |
+| 676216579 | Hulk Hoggan   | Oceanview Route | Sunrise   | 95689 |
+| 731579642 | Chester McMan | Bay Street      | Sunrise   | 95689 |
++-----------+---------------+-----------------+-----------+-------+
+4 rows in set (0.00 sec)
+
 
 
 Query 9: Retrieve policies that cover more than 2 cars.
 List policy number and number of cars covered.
 
+SELECT   p.PolicyNo, COUNT(*) AS CarsCovered
+FROM     POLICY AS p, CAR AS c
+WHERE    c.PolicyNo_Ref = p.PolicyNo
+GROUP BY p.PolicyNo
+HAVING   CarsCovered > 2;
+
++----------+-------------+
+| PolicyNo | CarsCovered |
++----------+-------------+
+|  3219687 |           3 |
+|  7531264 |           4 |
+|  8976235 |           4 |
+|  9846251 |           6 |
++----------+-------------+
+4 rows in set (0.00 sec)
+
+
+
 Drop Query:
+
+DROP TABLE HAD;
+DROP TABLE ACCIDENT;
+DROP TABLE OWNS;
+DROP TABLE CAR;
+DROP TABLE POLICY;
+DROP TABLE CUSTOMER;
+
+Query OK, 0 rows affected (0.10 sec)
+
+Query OK, 0 rows affected (0.07 sec)
+
+Query OK, 0 rows affected (0.08 sec)
+
+Query OK, 0 rows affected (0.12 sec)
+
+Query OK, 0 rows affected (0.09 sec)
+
+Query OK, 0 rows affected (0.13 sec)
