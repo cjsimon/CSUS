@@ -8,7 +8,8 @@ import com.codename1.ui.Container;
 import com.codename1.ui.layouts.BorderLayout;
 
 public class MapView extends Container implements Observer {
-    private GameWorld gw;
+    @SuppressWarnings("unused")
+	private GameWorld gw;
     
     public MapView(GameWorld gw) {
         this.setLayout(new BorderLayout(CENTER));

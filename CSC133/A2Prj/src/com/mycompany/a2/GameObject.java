@@ -29,6 +29,7 @@ public abstract class GameObject {
 	private double maxYLocation;
 	// GameWorld instance that the GameObject is associated with.
 	// Used to get properties from the room
+	@SuppressWarnings("unused")
 	private GameWorld gw;
 	// The default color
 	static final int DEFAULT_COLOR = ColorUtil.rgb(0, 0, 0);
@@ -127,6 +128,7 @@ public abstract class GameObject {
 	}
 	
 	// Helper Methods
+	@SuppressWarnings("unused")
 	private Point2D randomLocation() {
 		double minXLocation = this.getMinXLocation();
 		double minYLocation = this.getMinYLocation();

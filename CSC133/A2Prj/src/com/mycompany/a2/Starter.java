@@ -3,7 +3,6 @@ package com.mycompany.a2;
 
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
-import com.codename1.ui.Label;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
@@ -15,7 +14,8 @@ import com.codename1.ui.Toolbar;
 public class Starter {
 
     private Form current;
-    private Resources theme;
+    @SuppressWarnings("unused")
+	private Resources theme;
 
     public void init(Object context) {
         theme = UIManager.initFirstTheme("/theme");

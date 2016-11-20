@@ -15,7 +15,6 @@ public class Game extends Form {
 		play();
 		
 		// Find the one and only spaceship in the GameWorld
-		@SuppressWarnings("unused")
 		final Spaceship spaceship = (Spaceship)GameWorld.findOne("Spaceship");
 	}
 

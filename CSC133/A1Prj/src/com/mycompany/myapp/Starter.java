@@ -13,7 +13,8 @@ import com.codename1.ui.Toolbar;
 public class Starter {
 
     private Form current;
-    private Resources theme;
+    @SuppressWarnings("unused")
+	private Resources theme;
 
     public void init(Object context) {
         theme = UIManager.initFirstTheme("/theme");
