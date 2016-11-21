@@ -33,12 +33,47 @@ public abstract class GameObject implements IDrawable, ICollidable {
 	// The default color
 	static final int DEFAULT_COLOR = ColorUtil.BLACK;
 	
-	public GameObject(int size, int startWidth, int startHeight, int endWidth, int endHeight, int color) {
+	public GameObject(int size, int x, int y, int startWidth, int startHeight, int endWidth, int endHeight, int color) {
+		// Location Bounds
 		// The location of the object needs to be set before it's size can be calculated
-		this.setLocationBounds(startWidth, startHeight, endWidth, endWidth);
-		this.setLocation(new Point2D(startWidth, startHeight));
-		this.setSize(size);
-		this.setColor(color);
+		if(!this.setLocationBounds(startWidth, startHeight, endWidth, endWidth)) {
+			System.err.print("Error: Could not set location bounds!");
+		}
+		// Location
+		if(!this.setLocation(new Point2D(startWidth+x, startHeight+y))) {
+			System.err.print("Error: Could not set initial location!");
+		}
+		// Size
+		if(!this.setSize(size)) {
+			System.err.print("Error: Could not set initial size!");
+		}
+		// Color
+		if(!this.setColor(color)) {
+			System.err.print("Error: Could not set initial color!");
+		}
+	}
+	// Simple Constructor with random location
+	public GameObject(int size, int startWidth, int startHeight, int endWidth, int endHeight, int color) {
+		// Location Bounds
+		if(!this.setLocationBounds(startWidth, startHeight, endWidth, endWidth)) {
+			System.err.print("Error: Could not set location bounds!");
+		}
+		// Location
+		// Create a random location within the bounds since one wasn't specified
+		Point2D randomLocation = this.randomLocation();
+		int x = (int)randomLocation.getX();
+		int y = (int)randomLocation.getY();
+		if(!this.setLocation(new Point2D(x, y))) {
+			System.err.print("Error: Could not set initial location!");
+		}
+		// Size
+		if(!this.setSize(size)) {
+			System.err.print("Error: Could not set initial size!");
+		}
+		// Color
+		if(!this.setColor(color)) {
+			System.err.print("Error: Could not set initial color!");
+		}
 	}
 	
 	// Accessors
@@ -168,11 +203,17 @@ public abstract class GameObject implements IDrawable, ICollidable {
 		Point2D location = this.getLocation();
 		double x = Math.round(location.getX());
 		double y = Math.round(location.getY());
+		double sW = this.minXLocation;
+		double sH = this.minYLocation;
+		double eW = this.maxXLocation;
+		double eH = this.maxYLocation;
 		
 		String s = "";
-		s += "Name:      " + this.getType() 		  + "\n";
-		s += "Size:      " + this.getSize()			  + "\n";
-		s += "Location:  " + "(" + x + ", " + y + ")" + "\n";
+		s += "Name:      " + this.getType() 		     + "\n";
+		s += "Location:  " + "(" + x + ", " + y + ")"    + "\n";
+		s += "Start W/H: " + "(" + sW  + ", " + sH + ")" + "\n";
+		s += "End   W/H: " + "(" + eW  + ", " + eH + ")" + "\n";
+		s += "Size:      " + this.getSize()			     + "\n";
 		s += "Color:     " + this.getColor();
 		return s;
 	}

@@ -115,8 +115,8 @@ public class GameWorld extends Observable {
     	endHeight   = h;
     	bgMusic.play();
     	
-        int initialAstronauts = remainingAstronauts = 4;
-        int initialAliens     = remainingAliens     = 3;
+        int initialAstronauts = remainingAstronauts = 0;
+        int initialAliens     = remainingAliens     = 1;
         
         // Add the spaceship, astronauts and aliens
         this.addObject(SPACESHIP = Spaceship.getInstance(startWidth, startHeight, endWidth, endHeight));

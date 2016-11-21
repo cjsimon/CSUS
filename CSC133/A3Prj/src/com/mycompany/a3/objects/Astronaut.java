@@ -25,14 +25,15 @@ public class Astronaut extends Opponent {
 	static final int SPEED_CONSTANT = 1;
 	
 	// Constructors
-	public Astronaut(int size, int x, int y, int width, int height, int color, int direction, int speed) {
-		super(size, x, y, width, height, color, direction, speed);
+	public Astronaut(int size, int x, int y, int startWidth, int startHeight, int endWidth, int endHeight, int color, int direction, int speed) {
+		super(size, x, y, startWidth, startHeight, endWidth, endHeight, color, direction, speed);
 		this.setHealth(DEFAULT_HEALTH);
 	}
-	// Simple Constructor
-	public Astronaut(int x, int y, int width, int height) {
+	// Simple Constructor with random location
+	public Astronaut(int startWidth, int startHeight, int endWidth, int endHeight) {
 		super(R.nextInt(MIN_SIZE, MAX_SIZE),			 // Size
-				x, y, width, height,					 // Location
+				startWidth, startHeight,				 // MapView Start Bounds
+				endWidth, endHeight,					 // MapView End Bounds
 				DEFAULT_COLOR,							 // Color
 				R.nextInt(MIN_DIRECTION, MAX_DIRECTION), // Direction
 				MIN_SPEED);								 // Speed
@@ -54,7 +55,7 @@ public class Astronaut extends Opponent {
 		boolean withinBounds = 0 < health && health < 5;
 		if(!withinBounds) return false;
 		this.health = health;
-		// 
+		// Speed is dependent on health. Reset the speed now that the health has changed
 		this.setSpeed(this.getHealth() * SPEED_CONSTANT);
 		return withinBounds;
 	}
@@ -100,12 +101,11 @@ public class Astronaut extends Opponent {
 	}
 	
 	public void handleCollision(ICollidable other) {
-		if(((GameObject)other).getType().equals("Alien"))
-		{
+		if(((GameObject)other).getType().equals("Alien")) {
 			// The astronaut was hit
-			hit();
+			//hit();
 			// Play the hit sound
-			if(!sound.play()) System.err.print("Hit cannot be played!");
+			//if(!sound.play()) System.err.print("Hit cannot be played!");
 		}
 	}
 }

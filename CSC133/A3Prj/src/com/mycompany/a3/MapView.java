@@ -1,25 +1,42 @@
 package com.mycompany.a3;
 
 import java.util.Observer;
+import java.io.IOException;
 import java.util.Observable;
 import com.codename1.ui.plaf.Border;
+import com.mycompany.a3.objects.Alien;
 import com.mycompany.a3.objects.GameObject;
 import com.mycompany.a3.objects.GameObjectCollection;
 import com.mycompany.a3.objects.IDrawable;
 import com.mycompany.a3.objects.IIterable;
+import com.mycompany.a3.objects.Spaceship;
 import com.codename1.charts.models.Point;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Container;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
+import com.codename1.ui.Image;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.mycompany.a3.Random;
 
 public class MapView extends Container implements Observer {
-    private GameWorld gw;
+	private static final Random R = Random.getInstance();
+	
+	private GameWorld gw;
     private GameObjectCollection GameObjects;
     private Container mvContainer;
-    private Point point;
+    //private Point point;
+    
+    // Background images to select from
+    Image bgImage;
+    String[] bgImages = {
+		"galaxy.png",
+		"earth.png",
+		"horizon.png",
+		"nebula.png",
+		"stars.png"
+    };
     
     public MapView(GameWorld gw) {
     	//this.setLayout(new BorderLayout(CENTER));
@@ -27,12 +44,15 @@ public class MapView extends Container implements Observer {
     	this.getAllStyles().setBgTransparency(255);
         this.getAllStyles().setBorder(Border.createLineBorder(2, ColorUtil.BLUE));
     	
-        mvContainer = new Container();
+        // Pick a random background image to display
+        bgImage = null;
+		try {
+			bgImage = Image.createImage("/" + bgImages[R.nextInt(0, bgImages.length-1)]);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         
-        // DEBUG
-        System.out.print("MapView:  ");
-        System.out.println("(" + this.getWidth() + ", " + this.getHeight() + ")");
-        System.out.println();
+        mvContainer = new Container();
         
         gw.setEndWidth(this.getWidth());
         gw.setEndHeight(this.getHeight());
@@ -43,17 +63,22 @@ public class MapView extends Container implements Observer {
     }
 
 	public void update(Observable observable, Object data) {
-        // iterate over it and call paint() for each object
-		GameObjects = (GameObjectCollection)data;
-		
+		//GameObjects = (GameObjectCollection)data;
         this.repaint();
     }
     
 	// Invoke the draw method of each object
 	@Override
-    public void paint(Graphics g) {	
+    public void paint(Graphics g) {
 		// Implement draw methods to display graphics here
 		super.paint(g);
+		
+		// Draw the background
+		if(bgImage != null) {
+			g.drawImage(bgImage, getX(), getY(), getWidth(), getHeight());
+		} else {
+			System.err.println("Cannot display background");
+		}
 		
 		// Test if drawing to the canvas works
 		//testDraw(g);
@@ -63,7 +88,8 @@ public class MapView extends Container implements Observer {
         while(i.hasNext()) {
         	GameObject obj = i.getNext();
             if(obj instanceof IDrawable) obj.draw(g);
-            //System.out.println(obj);
+            //if(obj instanceof Spaceship) System.out.println(obj);
+            if(obj instanceof Alien)	 System.out.println(obj);
         }
     }
 	
@@ -72,7 +98,7 @@ public class MapView extends Container implements Observer {
 		int height = getHeight();
 		int x      = getX();
 		int y      = getY();
-		point      = new Point(x, y);
+		
 		g.setColor(ColorUtil.BLACK);
     	g.drawRect(x, y, 100, 100);
     	return true;

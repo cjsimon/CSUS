@@ -23,31 +23,26 @@ public class Spaceship extends Rescuer implements IGuided {
 	private static int h;
 	
 	// Constructor
-	private Spaceship(int size, int x, int y, int width, int height, int color) {
-		super(size, x, y, width, height, color);
-		Spaceship.x = x;
-		Spaceship.y = y;
-		Spaceship.w = width;
-		Spaceship.h = height;
+	private Spaceship(int size, int x, int y, int startWidth, int startHeight, int endWidth, int endHeight, int color) {
+		super(size, x, y, startWidth, startHeight, endWidth, endHeight, color);
 	}
 	// Simple Constructor
-	private Spaceship(int x, int y, int width, int height) {
-		super(START_SIZE, x, y, width, height, DEFAULT_COLOR);
-		Spaceship.x = x;
-		Spaceship.y = y;
-		Spaceship.w = width;
-		Spaceship.h = height;
+	private Spaceship(int startWidth, int startHeight, int endWidth, int endHeight) {
+		super(START_SIZE,				 // Size
+				startWidth, startHeight, // MapView Start Bounds
+				endWidth, endHeight,	 // MapView End Bounds
+				DEFAULT_COLOR);			 // Color
 	}
 	
-	@SuppressWarnings("static-access")
-	public static Spaceship getInstance(int size, int x, int y, int width, int height, int color) {
+	public static Spaceship getInstance(int size, int x, int y, int startWidth, int startHeight, int endWidth, int endHeight, int color) {
 		if(instance == null) {
-			return instance = new Spaceship(size, x, y, width, height, color);
+			return instance = new Spaceship(size, x, y, startWidth, startHeight, endWidth, endHeight, color);
 		}
 		return instance;
 	}
-	public static Spaceship getInstance(int x, int y, int width, int height) {
-		return getInstance(START_SIZE, x, y, width, height, DEFAULT_COLOR);
+	// Simple getInstance with unspecified location
+	public static Spaceship getInstance(int startWidth, int startHeight, int endWidth, int endHeight) {
+		return getInstance(START_SIZE, x, y, startWidth, startHeight, endWidth, endHeight, DEFAULT_COLOR);
 	}
 	
 	// Mutators
@@ -99,19 +94,12 @@ public class Spaceship extends Rescuer implements IGuided {
 	public void draw(Graphics g) {
 		int x      = (int)this.getLocation().getX();
 		int y      = (int)this.getLocation().getY();
-		int width  = Spaceship.w;
-		int height = Spaceship.h;
 		int size   = super.getSize();
-		
-		System.out.println("Spaceship:");
-		System.out.println("X, Y:     (" + Spaceship.x + ", " + Spaceship.y + ")");
-		System.out.println("Location: (" + x + ", " + y + ")");
-		System.out.println("Wdth/Hgt: (" + width + ", " + height + ")");
-		System.out.println("Size    : " + size);
-		System.out.println();
+		byte alpha = (byte)200;
 		
 		g.setColor(DEFAULT_COLOR);
-    	g.drawRect(x+w, y+h, size, size);
+    	//g.drawRect(x, y, size, size, 5); // Difficult to see due to the background
+    	g.fillRect(x, y, size, size, alpha);
 	}
 	
 	public void handleCollision(ICollidable other) {

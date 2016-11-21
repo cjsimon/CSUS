@@ -9,8 +9,8 @@ public abstract class Opponent extends GameObject implements IMovable {
 	// which are used to define how they move through the world
 	private int direction;
 	private int speed;
-	// All opponents have a size which cannot be changed once the object is created
-	// TODO: private int size;
+	// All opponents have a size which can only be changed once, when the object is instantiated
+	private boolean isSizeSet = false;
 	// Attribute Bounds
 	// Each opponent size is chosen randomly when created, and constrained to 20 and 50
 	static final int MIN_SIZE = 20;
@@ -22,8 +22,15 @@ public abstract class Opponent extends GameObject implements IMovable {
 	static final int MAX_SPEED 	   = 50;
 	
 	// Constructors
-	public Opponent(int size, int x, int y, int width, int height, int color, int direction, int speed) {
-		super(size, x, y, width, height, color);
+	public Opponent(int size, int x, int y, int startWidth, int startHeight, int endWidth, int endHeight, int color, int direction, int speed) {
+		super(size, x, y, startWidth, startHeight, endWidth, endHeight, color);
+		// Opponents also have direction and speed
+		this.setDirection(direction);
+		this.setSpeed(speed);
+	}
+	// Simple Constructor
+	public Opponent(int size, int startWidth, int startHeight, int endWidth, int endHeight, int color, int direction, int speed) {
+		super(size, startWidth, startHeight, endWidth, endHeight, color);
 		// Opponents also have direction and speed
 		this.setDirection(direction);
 		this.setSpeed(speed);
@@ -40,8 +47,11 @@ public abstract class Opponent extends GameObject implements IMovable {
 	// Mutators
 	@Override
 	public boolean setSize(int size) {
-		// All opponents have a size which cannot be changed once the object is created
-		return false;
+		// If the size hasn't been set already, set it. Then prevent it from being set anymore
+		if(!isSizeSet) isSizeSet = super.setSize(size);
+		// Size is not settable after instantiation. Negate the status indicating that it was set,
+		// As to indicate that it was successfully set this one and only time.
+		return !isSizeSet;
 	}
 	public boolean setDirection(int direction) {
 		boolean withinBounds = (MIN_DIRECTION <= direction && direction <= MAX_DIRECTION);

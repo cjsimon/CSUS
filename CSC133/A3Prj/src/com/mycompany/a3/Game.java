@@ -25,6 +25,9 @@ public class Game extends Form implements Runnable {
         mv = new MapView(gw);
         sv = new ScoreView(gw);
         
+        // Create the Game gui layout
+        this.initGui();
+        
         // DEBUG
         System.out.println("GameWorld: ");
         System.out.println("X, Y:     (" + mv.getX() + ", " + mv.getY() + ")");
@@ -40,9 +43,6 @@ public class Game extends Form implements Runnable {
         // Create a UITimer to update the MapView
         UITimer timer = new UITimer(this);
         timer.schedule(15, true, this);
-        
-        // Create the Game gui layout
-        this.initGui();
     }
     
     public boolean initGui() {
