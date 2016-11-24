@@ -34,7 +34,9 @@ public class Game extends Form implements Runnable {
         System.out.println("Wdth/Hgt: (" + mv.getWidth() + ", " + mv.getHeight() + ")");
         System.out.println();
         
-        gw.init(mv.getX(), mv.getY(), mv.getWidth(), mv.getHeight());
+        // Initialize the world with the bounds of the MapView, according to the dimensions of the screen
+        // This is performed after the MapView is rendered in initGui
+        gw.init(mv.getX(), mv.getY(), mv.getWidth() + mv.getX(), mv.getHeight() + mv.getY());
         
         // Make the map and score observers of the GamewWorld
         gw.addObserver(mv);
@@ -56,7 +58,7 @@ public class Game extends Form implements Runnable {
         // Split the northContainer into two sections, nTop and nBottom
         Container nTop = new Container(), nBottom = new Container();
         // Set nTop and nBottom Layouts within northContainer
-        // nTop holds the toolbar
+        // nTop holds the ToolBar
         // nBottom holds the ScoreView
         nTop.setLayout(new FlowLayout(Component.CENTER));
         nBottom.setLayout(new BoxLayout(BoxLayout.X_AXIS));
@@ -65,7 +67,7 @@ public class Game extends Form implements Runnable {
         nBottom.getAllStyles().setBorder(Border.createLineBorder(2, ColorUtil.BLACK));
         
         /* nTop */
-        // Create a toolbar to set the title and to hold the hamburger menu
+        // Create a ToolBar to set the title and to hold the hamburger menu
         Toolbar toolbar = new Toolbar();
         setToolbar(toolbar);
         toolbar.setTitle("Space Fights Game");
@@ -106,7 +108,8 @@ public class Game extends Form implements Runnable {
         // East Commands
         // Commands are invoked by buttons
         ContractCommand    contractCommand    = new ContractCommand("Contract", gw);
-        DownCommand        downCommand        = new DownCommand("Down", gw);
+        // Up and Down are inverted due to the nature of monitors vs the standard coordinate system
+        UpCommand          downCommand        = new UpCommand("Down", gw);
         RightCommand       rightCommand       = new RightCommand("Right", gw);
         MoveToAlienCommand moveToAlienCommand = new MoveToAlienCommand("Move To Alien", gw);
         // Command keyListeners
@@ -161,7 +164,8 @@ public class Game extends Form implements Runnable {
         westContainer.getAllStyles().setBorder(Border.createLineBorder(2, ColorUtil.BLACK));
         // Commands
         ExpandCommand          expandCommand          = new ExpandCommand("Expand", gw);
-        UpCommand              upCommand              = new UpCommand("Up", gw);
+        // Up and Down are inverted due to the nature of monitors vs the standard coordinate system
+        DownCommand            upCommand              = new DownCommand("Up", gw);
         LeftCommand            leftCommand            = new LeftCommand("Left", gw);
         MoveToAstronautCommand moveToAstronautCommand = new MoveToAstronautCommand("Move to Astronaut", gw);
         // Command keyListeners
@@ -192,6 +196,7 @@ public class Game extends Form implements Runnable {
         return true;
     }
 
+    // Inherited method from Runnable class that is invoked upon the timer being triggered
 	public void run() {
 		gw.update();
 		mv.repaint();

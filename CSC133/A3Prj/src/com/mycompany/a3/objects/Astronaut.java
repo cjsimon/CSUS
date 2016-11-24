@@ -7,6 +7,7 @@ import com.mycompany.a3.sound.Sound;
 import com.mycompany.a3.sound.Sound;
 
 public class Astronaut extends Opponent {
+	// Properties
 	// Create a new sound instance for each object.
 	// This is an expensive way to allow each object
 	// to be able to emit its own sound so that the
@@ -36,7 +37,7 @@ public class Astronaut extends Opponent {
 				endWidth, endHeight,					 // MapView End Bounds
 				DEFAULT_COLOR,							 // Color
 				R.nextInt(MIN_DIRECTION, MAX_DIRECTION), // Direction
-				MIN_SPEED);								 // Speed
+				R.nextInt(MIN_SPEED, MAX_SPEED));		 // Speed
 		this.setHealth(DEFAULT_HEALTH);					 // Health
 	}
 
@@ -89,13 +90,15 @@ public class Astronaut extends Opponent {
 	// Helper Methods
 	@Override
 	public String toString() {
-		String s = super.toString() 			 + "\n";
-		s += "Speed:     " + this.getSpeed() 	 + "\n";
-		s += "Direction: " + this.getDirection() + "\n";
+		String s = super.toString() + "\n";
 		s += "Health:    " + this.getHealth();
 		return s;
 	}
 	
+	/**
+	 * @TODO Use fillTriangle / drawPolygon
+	 * @link https://www.codenameone.com/javadoc/com/codename1/ui/Graphics.html#fillTriangle-int-int-int-int-int-int-
+	 */
 	public void draw(Graphics g) {
 		
 	}
@@ -107,5 +110,14 @@ public class Astronaut extends Opponent {
 			// Play the hit sound
 			//if(!sound.play()) System.err.print("Hit cannot be played!");
 		}
+	}
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	protected String[] getSpriteSheet() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

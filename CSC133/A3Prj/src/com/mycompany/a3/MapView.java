@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Observable;
 import com.codename1.ui.plaf.Border;
 import com.mycompany.a3.objects.Alien;
+import com.mycompany.a3.objects.Astronaut;
 import com.mycompany.a3.objects.GameObject;
 import com.mycompany.a3.objects.GameObjectCollection;
 import com.mycompany.a3.objects.IDrawable;
@@ -29,8 +30,8 @@ public class MapView extends Container implements Observer {
     //private Point point;
     
     // Background images to select from
-    Image bgImage;
-    String[] bgImages = {
+    private Image bgImage;
+    private String[] bgImages = {
 		"galaxy.png",
 		"earth.png",
 		"horizon.png",
@@ -90,6 +91,7 @@ public class MapView extends Container implements Observer {
             if(obj instanceof IDrawable) obj.draw(g);
             //if(obj instanceof Spaceship) System.out.println(obj);
             if(obj instanceof Alien)	 System.out.println(obj);
+            //if(obj instanceof Astronaut) System.out.println(obj);
         }
     }
 	

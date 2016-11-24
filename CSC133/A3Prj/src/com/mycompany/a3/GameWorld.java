@@ -3,6 +3,7 @@ package com.mycompany.a3;
 import java.util.Observable;
 import java.util.StringTokenizer;
 
+import com.codename1.charts.util.ColorUtil;
 import com.codename1.maps.BoundingBox;
 import com.codename1.maps.Coord;
 import com.codename1.ui.geom.Point2D;
@@ -19,21 +20,21 @@ import com.mycompany.a3.sound.BGSound;
 import com.mycompany.a3.sound.Sound;
 
 public class GameWorld extends Observable {
-    // Helper Attributes
+    /* Helper Attributes */
     static final Random R = Random.getInstance();
     
     // Using a global reference to the spaceship allows for us to reference it
     // without having to search for it in the GameObjects
     private static Spaceship SPACESHIP;
 
-    // Attributes
+    /* Attributes */
     // The origin of the "world" (location (0, 0)) is at the lower left hand corner
     private int startWidth;
     private int startHeight;
     private int endWidth;
     private int endHeight;
     
-    // Game Specific Attributes
+    /* Game Specific Attributes */
     // TODO Make this GameWorld class an abstract class that
     //      gets extended to include these game specific methods,
     //      variables and logic.
@@ -56,10 +57,10 @@ public class GameWorld extends Observable {
     Sound   astronautSound = new Sound("astronaut.wav");
     Sound   doorSound      = new Sound("door.wav");
     
-    // Constructors
+    /* Constructors */
     public GameWorld() {}
     
-    // Accessors
+    /* Accessors */
     public int getScore() {
 		return score;
 	}
@@ -91,7 +92,7 @@ public class GameWorld extends Observable {
     	return isSoundOn;
     }
     
-    // Mutators
+    /* Mutators */
     public void setStartWidth(int width) {
 		this.startWidth = width; 
 	}
@@ -119,12 +120,12 @@ public class GameWorld extends Observable {
         int initialAliens     = remainingAliens     = 1;
         
         // Add the spaceship, astronauts and aliens
-        this.addObject(SPACESHIP = Spaceship.getInstance(startWidth, startHeight, endWidth, endHeight));
+        this.addObject(SPACESHIP = Spaceship.getInstance(75, 100, 100, startWidth, startHeight, endWidth, endHeight, ColorUtil.BLACK));
         for(int a = 0; a < initialAstronauts; a++) {
             this.addObject(new Astronaut(startWidth, startHeight, endWidth, endHeight));
         }
         for(int a = 0; a < initialAliens; a++) {
-            this.addObject(new Alien(startWidth, startHeight, endWidth, endHeight));
+        	this.addObject(new Alien(startWidth, startHeight, endWidth, endHeight));
         }
         this.setChanged();
         notifyObservers();
@@ -449,7 +450,7 @@ public class GameWorld extends Observable {
         return true;
     }
     
-    // Helper Methods
+    /* Helper Methods */
     /**
      * Split a string into substrings given a delimiter
      * String.split() doesn't seem to be defined in some versions of J2ME
@@ -459,10 +460,10 @@ public class GameWorld extends Observable {
      * @return String[]
      */
     private final static String[] split(String str, String delim) {
-        StringTokenizer stringTokenizer = new StringTokenizer( str, delim );
+        StringTokenizer stringTokenizer = new StringTokenizer(str, delim);
         String[] strArr = new String[stringTokenizer.countTokens()];
         int i = 0;
-        while( stringTokenizer.hasMoreTokens() ) {
+        while(stringTokenizer.hasMoreTokens()) {
             strArr[i] = stringTokenizer.nextToken();
         }
         return strArr;
