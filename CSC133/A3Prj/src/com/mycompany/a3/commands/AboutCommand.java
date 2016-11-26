@@ -20,6 +20,6 @@ public class AboutCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        Dialog.show("About", aboutText, "Okay", null);
+        if(gw.isPlaying) Dialog.show("About", aboutText, "Okay", null);
     }
 }

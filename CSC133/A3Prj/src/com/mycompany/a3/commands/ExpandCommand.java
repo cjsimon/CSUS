@@ -13,7 +13,9 @@ public class ExpandCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Expand");
-        gw.expand(10);
+        if(gw.isPlaying) {
+            System.out.println("Expand");
+           gw.expand(10);
+        }
     }
 }

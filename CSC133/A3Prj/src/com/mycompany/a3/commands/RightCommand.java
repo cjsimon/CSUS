@@ -13,7 +13,9 @@ public class RightCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Right");
-        gw.moveSpaceshipRight(10);
+        if(gw.isPlaying) {
+            System.out.println("Right");
+            gw.moveSpaceshipRight(10);
+        }
     }
 }

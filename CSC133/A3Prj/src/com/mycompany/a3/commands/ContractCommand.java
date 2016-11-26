@@ -13,7 +13,9 @@ public class ContractCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Contract");
-        gw.contract(10);
+        if(gw.isPlaying) {
+            System.out.println("Contract");
+            gw.contract(10);
+        }
     }
 }

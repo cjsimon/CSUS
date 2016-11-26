@@ -7,11 +7,14 @@ import com.codename1.media.Media;
 import com.codename1.media.MediaManager;
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
+import com.mycompany.a3.GameWorld;
 
 public class Sound implements Runnable {
 	protected Media m;
+	private static GameWorld gw;
 	
-	public Sound(String file) {
+	public Sound(String file, GameWorld gw) {
+		this.gw = gw;
 		final InputStream is = Display.getInstance().getResourceAsStream(getClass(), "/" + file);
 		try {
 			// Load up a wav audio file using the input file.
@@ -34,7 +37,12 @@ public class Sound implements Runnable {
 	public void run() {}
 	
 	public boolean play()  {
+		// Don't play the sound if the game is paused
+		if(!gw.isPlaying) return false;
+		
 		boolean canPlay = (m != null);
+		// Only play the sound if the media player is set\
+		// and the gameworld isn't paused
 		if(canPlay) {
 			m.setTime(0);
 			m.play();
@@ -46,5 +54,19 @@ public class Sound implements Runnable {
 		boolean canPause = (m != null);
 		if(canPause) m.pause();
 		return canPause;
+	}
+	
+	public boolean resume()  {
+		// Don't play the sound if the game is paused.
+		// Don't start the sound if it isn't playing.
+		if(!gw.isPlaying || m.isPlaying() || m.getTime() == 0 || !gw.isSoundOn()) return false;
+		
+		boolean canPlay = (m != null);
+		// Only play the sound if the media player is set
+		// and the gameworld isn't paused
+		if(canPlay) {
+			m.play();
+		}
+		return canPlay;
 	}
 }

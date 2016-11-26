@@ -7,6 +7,7 @@ import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.util.UITimer;
+import com.mycompany.a3.sound.Sound;
 
 public class Alien extends Opponent {
 	/* Attributes */
@@ -21,6 +22,15 @@ public class Alien extends Opponent {
 	private static final int DEFAULT_COLOR = ColorUtil.GREEN;
     
 	/* Properties */
+	// Create a new sound instance for each object.
+	// This is an expensive way to allow each object
+	// to be able to emit its own sound so that the
+	// same sample can be played overlapping.
+	//
+	// The assignment requires that one sound be
+	// created in the gameworld.
+	//Sound sound = new Sound("alien.wav");
+		
 	// Animation
 	private String[] spriteSheet = {
 		"alien0.png",
@@ -85,12 +95,20 @@ public class Alien extends Opponent {
 	}
 	
 	public void handleCollision(ICollidable other) {
-		// TODO Auto-generated method stub
-		
+		if(((GameObject)other).getType().equals("Alien")) {
+			// Two aliens hit each other
+			alienHit();
+			// Play the alien hit sound
+			//if(!sound.play()) System.err.print("Hit cannot be played!");
+		}
 	}
 	
 	@Override
 	protected String[] getSpriteSheet() {
 		return spriteSheet;
+	}
+	
+	private void alienHit() {
+		return ;
 	}
 }

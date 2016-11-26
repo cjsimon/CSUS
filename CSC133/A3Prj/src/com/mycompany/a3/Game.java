@@ -1,6 +1,7 @@
 package com.mycompany.a3;
 
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Form;
@@ -18,6 +19,9 @@ public class Game extends Form implements Runnable {
     private GameWorld gw;
     private MapView   mv;
     private ScoreView sv;
+    
+    BottomButton bPauseCommand;
+    SoundCommand soundCommand;
     
     public Game() {
     	// Create the GameWorld, MapView and ScoreView
@@ -73,7 +77,7 @@ public class Game extends Form implements Runnable {
         toolbar.setTitle("Space Fights Game");
         // Hamburger Menu Commands
         ScoreCommand scoreCommand = new ScoreCommand("Score", gw);
-        SoundCommand soundCommand = new SoundCommand("Sound", gw);
+        			 soundCommand = new SoundCommand("Sound", gw, this);
         HelpCommand  helpCommand  = new HelpCommand("Help", gw);
         AboutCommand aboutCommand = new AboutCommand("About", gw);
         ExitCommand  exitCommand  = new ExitCommand("Exit", gw);
@@ -140,21 +144,36 @@ public class Game extends Form implements Runnable {
         southContainer.getAllStyles().setPadding(Component.RIGHT, 10);
         southContainer.getAllStyles().setBorder(Border.createLineBorder(2, ColorUtil.BLACK));
         // South Commands
-        NewAlienCommand newAlienCommand = new NewAlienCommand("New Alien", gw);
-        FightCommand    fightCommand    = new FightCommand("Fight", gw);
-        TickCommand     tickCommand     = new TickCommand("Tick", gw);
+        String pausedMessage = gw.isPlaying ? "Playing" : "Pause";
+        // Map the pause command to the game so that it can modify the text of the button
+        // TODO: Create proxy design pattern for this, or use existing implementation of
+        //		 the observable pattern.
+        PauseCommand          pauseCommand        = new PauseCommand(pausedMessage, gw, this);
+        HealCommand           healCommand         = new HealCommand("Heal", gw);
+        //NewAlienCommand     newAlienCommand     = new NewAlienCommand("New Alien", gw);
+        //NewAstronautCommand newAstronautCommand = new NewAstronautCommand("New Astronaut", gw);
+        //FightCommand        fightCommand        = new FightCommand("Fight", gw);
+        //TickCommand         tickCommand         = new TickCommand("Tick", gw);
         // Command keyListeners
-        this.addKeyListener('w', newAlienCommand);
-        this.addKeyListener('f', fightCommand);
-        this.addKeyListener('t', tickCommand);
+        this.addKeyListener('p', pauseCommand);
+        this.addKeyListener('h', healCommand);
+        //this.addKeyListener('w', newAlienCommand);
+        //this.addKeyListener('f', fightCommand);
+        //this.addKeyListener('t', tickCommand);
         // South Buttons
-        BottomButton bNewAlien = new BottomButton("New Alien", newAlienCommand);
-        BottomButton bFight    = new BottomButton("Fight", fightCommand);
-        BottomButton bTick     = new BottomButton("Tick", tickCommand);
+        bPauseCommand   = new BottomButton(pausedMessage, pauseCommand);
+        BottomButton bHealCommand    = new BottomButton("Heal", healCommand);
+        //BottomButton bNewAlien     = new BottomButton("New Alien", newAlienCommand);
+        //BottomButton bNewAstronaut = new BottomButton("New Astronaut", newAstronautCommand);
+        //BottomButton bFight        = new BottomButton("Fight", fightCommand);
+        //BottomButton bTick         = new BottomButton("Tick", tickCommand);
         // Add the buttons to the container
-        southContainer.add(bNewAlien);
-        southContainer.add(bFight);
-        southContainer.add(bTick);
+        southContainer.add(bPauseCommand);
+        southContainer.add(bHealCommand);
+        //southContainer.add(bNewAlien);
+        //southContainer.add(bNewAstronaut);        
+        //southContainer.add(bFight);
+        //southContainer.add(bTick);
         // Add the southContainer to the south BoarderLayout
         this.add(BorderLayout.SOUTH, southContainer);
         
@@ -195,10 +214,26 @@ public class Game extends Form implements Runnable {
         this.show();
         return true;
     }
-
+    
+    /**
+     * Callback method from {PauseCommand @link com.mycompany.a3.commands.PauseCommand}
+     * Play/Pause all sounds
+     * Change the play/pause button text
+     * @param  text    The text to change the button to
+     * @return boolean Status of changing the button text
+     */
+    public boolean changePauseStatus(String text) {
+    	gw.pauseSound();
+    	bPauseCommand.setText(text);
+        return true;
+    }
+    
     // Inherited method from Runnable class that is invoked upon the timer being triggered
 	public void run() {
-		gw.update();
-		mv.repaint();
+        // Only run the game if the GameWorld isn't paused
+        if(gw.isPlaying) {
+		  gw.update();
+		  mv.repaint();
+        }
 	}
 }

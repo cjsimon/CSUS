@@ -13,7 +13,9 @@ public class DownCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Down");
-        gw.moveSpaceshipDown(10);
+        if(gw.isPlaying) {
+            System.out.println("Down");
+            gw.moveSpaceshipDown(10);
+        }
     }
 }

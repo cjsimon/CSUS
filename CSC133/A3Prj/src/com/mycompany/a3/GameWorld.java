@@ -23,6 +23,12 @@ public class GameWorld extends Observable {
     /* Helper Attributes */
     static final Random R = Random.getInstance();
     
+    // Is the game paused or playing
+    public boolean isPlaying = true;
+    
+    // The selected object when the game is paused
+    GameObject selectedObject;
+    
     // Using a global reference to the spaceship allows for us to reference it
     // without having to search for it in the GameObjects
     private static Spaceship SPACESHIP;
@@ -52,10 +58,10 @@ public class GameWorld extends Observable {
     // The GameObjects in the GameWorld
     private static GameObjectCollection GameObjects = new GameObjectCollection();
     // Sounds
-    BGSound bgMusic        = new BGSound("music.wav");
-    Sound   alienSound     = new Sound("alien.wav");
-    Sound   astronautSound = new Sound("astronaut.wav");
-    Sound   doorSound      = new Sound("door.wav");
+    BGSound bgMusic        = new BGSound("music.wav",	this);
+    Sound   alienSound     = new Sound("alien.wav", 	this);
+    Sound   astronautSound = new Sound("astronaut.wav", this);
+    Sound   doorSound      = new Sound("door.wav", 		this);
     
     /* Constructors */
     public GameWorld() {}
@@ -116,13 +122,13 @@ public class GameWorld extends Observable {
     	endHeight   = h;
     	bgMusic.play();
     	
-        int initialAstronauts = remainingAstronauts = 0;
-        int initialAliens     = remainingAliens     = 1;
+        int initialAstronauts = remainingAstronauts = 1;
+        int initialAliens     = remainingAliens     = 3;
         
         // Add the spaceship, astronauts and aliens
         this.addObject(SPACESHIP = Spaceship.getInstance(75, 100, 100, startWidth, startHeight, endWidth, endHeight, ColorUtil.BLACK));
         for(int a = 0; a < initialAstronauts; a++) {
-            this.addObject(new Astronaut(startWidth, startHeight, endWidth, endHeight));
+            this.addObject(new Astronaut(50, 200, 200, startWidth, startHeight, endWidth, endHeight, ColorUtil.BLACK, 0, 5));
         }
         for(int a = 0; a < initialAliens; a++) {
         	this.addObject(new Alien(startWidth, startHeight, endWidth, endHeight));
@@ -169,6 +175,16 @@ public class GameWorld extends Observable {
             			// Is the currently selected collidingObj
             			// colliding with the obj being compared against?
             			if(objCollider.collidesWith(collidingObj)) {
+                            // Play according sounds from GameWorld
+                            String currentObjectType   = ((GameObject)objCollider).getType();
+                            String collidingObjectType = ((GameObject)collidingObj).getType();
+                            if(collidingObjectType.equals("Alien") && collidingObjectType.equals("Alien")) {
+                                //if(this.isPlaying && this.isSoundOn) alienSound.play();
+                            } else if(collidingObjectType.equals("Astronaut") && collidingObjectType.equals("Alien")) {
+                                //if(this.isPlaying && this.isSoundOn) astronautSound.play();
+                            }
+                            
+                            // Handle Collision
             				objCollider.handleCollision(collidingObj);
             			}
             		}
@@ -194,13 +210,13 @@ public class GameWorld extends Observable {
         if(destination == null) return false;
         
         // Set the location of GameObject o to the location of the destination object
-        o.setLocation(destination.getLocation());
+        boolean wasMoved = o.setLocation(destination.getLocation());
         
         this.setChanged();
         notifyObservers(GameObjects);
         
-        // o was successfully moved
-        return true;
+        // return whether o was successfully moved or not
+        return wasMoved;
     }
     // MoveTo using GameObject filter
     public final boolean moveTo(GameObject o, String filter) {
@@ -290,11 +306,15 @@ public class GameWorld extends Observable {
     public boolean moveSpaceshipToAstronaut() {
         // Assuming that we only have one and only one spaceship,
         // Transfer that spaceship to the location of a randomly selected astronaut
-        return this.moveTo(SPACESHIP, "Astronaut");
+        // If the move fails, try again with a random astronaut
+    	if(!this.moveTo(SPACESHIP, "Astronaut")) moveSpaceshipToAstronaut();
+    	return true;
     }
     public boolean moveSpaceshipToAlien() {
         // Transfer that spaceship to the location of a randomly selected alien
-        return this.moveTo(SPACESHIP, "Alien");
+    	// If the move fails, try again with a random alien
+    	if(!this.moveTo(SPACESHIP, "Alien")) moveSpaceshipToAlien();
+    	return true;
     }
 
     /**
@@ -353,7 +373,7 @@ public class GameWorld extends Observable {
 		this.notifyObservers();
 		
 		// Play the door sound
-		if(!doorSound.play()) System.err.print("Door cannot be played!");
+		if(this.isSoundOn) if(!doorSound.play()) System.err.print("Door cannot be played!");
     }
 
     /**
@@ -381,6 +401,14 @@ public class GameWorld extends Observable {
     public boolean addAlien() {
     	this.addObject(new Alien(startWidth, startHeight, endWidth, endHeight));
     	remainingAliens++;
+    	this.setChanged();
+		this.notifyObservers();
+    	return true;
+    }
+    public boolean addAstronaut() {
+    	//this.addObject(new Astronaut(startWidth, startHeight, endWidth, endHeight));
+    	this.addObject(new Astronaut(50, 200, 200, startWidth, startHeight, endWidth, endHeight, ColorUtil.BLACK, 0, 5));
+    	remainingAstronauts++;
     	this.setChanged();
 		this.notifyObservers();
     	return true;
@@ -433,6 +461,16 @@ public class GameWorld extends Observable {
     }
     
     /**
+     * Heal the selected object. Only astronauts can be selected and healed
+     */
+    public boolean healSelected() {
+    	if(selectedObject == null) return false;
+    	String type = selectedObject.getType();
+    	//if(type.equals("Astronaut")) selectedObject.heal();
+    	if(selectedObject instanceof Astronaut) return ((Astronaut)selectedObject).heal();
+    	return false;
+    }
+    /**
      * Toggle Sound
      */
     public boolean toggleSound() {
@@ -440,6 +478,33 @@ public class GameWorld extends Observable {
         this.setChanged();
 		this.notifyObservers();
         return isSoundOn;
+    }
+    /**
+     * Play/Pause sound
+     */
+    public void pauseSound() {
+		if(!this.isPlaying) {
+	    	bgMusic.pause();
+			alienSound.pause();
+			astronautSound.pause();
+			doorSound.pause();
+		} else if(this.isPlaying) {
+			bgMusic.resume();
+			alienSound.resume();
+			astronautSound.resume();
+			doorSound.resume();
+		}
+    }
+    
+    public void muteSound() {
+    	if(!this.isSoundOn) {
+	    	bgMusic.pause();
+			alienSound.pause();
+			astronautSound.pause();
+			doorSound.pause();
+		} else if(this.isSoundOn) {
+			bgMusic.play();
+		}
     }
     
     /**

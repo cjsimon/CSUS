@@ -13,7 +13,9 @@ public class TickCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Tick");
-        gw.update();
+        if(gw.isPlaying) {
+            System.out.println("Tick");
+            gw.update();
+        }
     }
 }

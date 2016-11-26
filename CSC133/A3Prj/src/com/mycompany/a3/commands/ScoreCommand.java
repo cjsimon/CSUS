@@ -13,7 +13,9 @@ public class ScoreCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Open Door and Update Score");
-        gw.openDoor();
+        if(gw.isPlaying) {
+            System.out.println("Open Door and Update Score");
+            gw.openDoor();
+        }
     }
 }

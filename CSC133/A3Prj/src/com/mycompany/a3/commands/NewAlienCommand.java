@@ -13,7 +13,9 @@ public class NewAlienCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Add Alien");
-        gw.addAlien();
+        if(gw.isPlaying) {
+            System.out.println("Add Alien");
+            gw.addAlien();
+        }
     }
 }

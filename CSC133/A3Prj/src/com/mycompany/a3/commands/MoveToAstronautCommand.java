@@ -13,7 +13,9 @@ public class MoveToAstronautCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Move to Astronaut");
-        gw.moveSpaceshipToAstronaut();
+        if(gw.isPlaying) {
+            System.out.println("Move to Astronaut");
+            gw.moveSpaceshipToAstronaut();
+        }
     }
 }

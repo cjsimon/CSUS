@@ -13,7 +13,9 @@ public class UpCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Up");
-        gw.moveSpaceshipUp(10);
+        if(gw.isPlaying) {
+            System.out.println("Up");
+            gw.moveSpaceshipUp(10);
+        }
     }
 }

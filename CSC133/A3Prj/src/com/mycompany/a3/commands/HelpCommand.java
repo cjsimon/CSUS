@@ -29,6 +29,6 @@ public class HelpCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        Dialog.show("Commands", helpText, "Okay", "Cancel");
+        if(gw.isPlaying) Dialog.show("Commands", helpText, "Okay", "Cancel");
     }
 }

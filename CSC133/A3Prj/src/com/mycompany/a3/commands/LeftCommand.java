@@ -13,7 +13,9 @@ public class LeftCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Left");
-        gw.moveSpaceshipLeft(10);
+        if(gw.isPlaying) {
+            System.out.println("Left");
+            gw.moveSpaceshipLeft(10);
+        }
     }
 }

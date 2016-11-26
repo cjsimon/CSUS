@@ -55,7 +55,8 @@ public abstract class Opponent extends GameObject implements IMovable {
 	}
 	public boolean setDirection(int direction) {
 		boolean withinBounds = (MIN_DIRECTION <= direction && direction <= MAX_DIRECTION);
-		if(withinBounds) this.direction = direction;
+		// Constrain the direction to a degree value from 0 to 359
+		if(withinBounds) this.direction = direction % 360;
 		return withinBounds;
 	}
 	public boolean setSpeed(int speed) {
@@ -78,9 +79,6 @@ public abstract class Opponent extends GameObject implements IMovable {
 		// The newly proposed coordinates
 		double newX 		= location.getX();
 		double newY 		= location.getY();
-		// The resulting coordinates that the object will move to
-		double resultX;
-		double resultY;
 		
 		// The bounds of the object
 		double minXLocation = this.getMinXLocation();
@@ -90,46 +88,10 @@ public abstract class Opponent extends GameObject implements IMovable {
 		boolean withinXBounds = minXLocation <= newX && newX <= maxXLocation;
 		boolean withinYBounds = minYLocation <= newY && newY <= maxYLocation;
 		
-		// Coordinate Bounds
-		// Move the object to the proposed coordinate if it is within bounds
-		// If not, modify the coordinate to move the object in the opposite direction
-		if(withinXBounds) {
-			// The proposed coordinate is within bounds.
-			// Update the result to use this proposed value
-			resultX = newX;
-		} else {
-			// Make the object move in the reverse direction.
-			// This is done by subtracting the proposed coordinate,
-			// thus applying a negative (opposite) translation.
-			// With this, the direction of the object must also be
-			// mirrored to prevent the object from sticking,
-			// or jittering, up on the edge of the bounding wall.
-			resultX = -newX;
-			// Reversing direction is done by making the object turn.
-			// Use the bounce method to calculate the degree necessary to rotate
-			this.bounce();
-		}
-		if(withinYBounds) {
-			resultY = newY;
-		} else {
-			resultY = -newY;
-			this.bounce();
-		}
+		if(!withinXBounds) this.bounceX();
+		if(!withinYBounds) this.bounceY();
 		
-		// Now that the coordinate pair has been modified,
-		// set it as the new location by sending it to the
-		// original, super setLocation method.
-		// Note: Doing so will run the bound checks once again.
-		// 		 This doesn't and shouldn't be done, as if the
-		//		 check were more costly, it would cause extra
-		//		 unnecessary overhead. Since the coordinates
-		//		 Have already been checked, consider instead
-		//		 modifying the location components directly.
-		//
-		//return super.setLocation(new Point2D(resultX, resultY));
-		// The location has been modified and is now within the bounds.
-		// Update it directly. This is allowed because location is a protected attribute.
-		this.location = new Point2D(resultX, resultY);
+		this.location = new Point2D(newX, newY);
 		return true;
 	}
 	
@@ -145,31 +107,22 @@ public abstract class Opponent extends GameObject implements IMovable {
 	 */
 	public void move() {
 		// Calculate the degree of the object based on its specified direction.
-		// Constrain the direction to a degree value from 0 to 359
-		int degree = this.getDirection() % 360;
 		// Calculate the new x and y positions based on the object's current location, direction, and speed
-		double x = this.getLocation().getX() + Math.cos(90 - degree) * this.getSpeed();
-		double y = this.getLocation().getY() + Math.sin(90 - degree) * this.getSpeed();
+		double x = this.getLocation().getX() + Math.cos(90 - this.getDirection()) * this.getSpeed();
+		double y = this.getLocation().getY() + Math.sin(90 - this.getDirection()) * this.getSpeed();
 		// Apply the new location, while bouncing if necessary.
 		this.setLocation(new Point2D(x, y));
 	}
 	
 	/**
-	 * Make the object bounce by rotating the object depending on what direction it is currently facing
+	 * Make the object bounce by rotating the object depending on what direction it is currently facing.
+	 * Reflective angle.
 	 */
-	public boolean bounce() {
-		int currentDirection = this.getDirection();
-		if(0 < currentDirection && currentDirection < 180) {
-			// If the object is facing east, the object needs to rotate +90 clockwise.
-			return this.setDirection(this.getDirection() + 90);
-		} else if(180 < currentDirection && currentDirection < 360) {
-			// If the object is facing west, the object needs to rotate -90 clockwise.
-			return this.setDirection(this.getDirection() - 90);
-		} else if(currentDirection == 0 || currentDirection == 180) {
-			// If the object is facing exactly north or south, the object needs to rotate 180.
-			return this.setDirection(this.getDirection() + 180);
-		}
-		return false;
+	public boolean bounceX() {
+		return this.setDirection(180 - this.getDirection());
+	}
+	public boolean bounceY() {
+		return this.setDirection(180 - this.getDirection());
 	}
 	
 	// Helper Methods

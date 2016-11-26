@@ -13,7 +13,9 @@ public class MoveToAlienCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Move to Alien");
-        gw.moveSpaceshipToAlien();
+        if(gw.isPlaying) {
+            System.out.println("Move to Alien");
+            gw.moveSpaceshipToAlien();
+        }
     }
 }

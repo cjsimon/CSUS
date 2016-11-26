@@ -13,7 +13,9 @@ public class FightCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Fight");
-        gw.colAstronautAlien();
+        if(gw.isPlaying) {
+            System.out.println("Fight");
+            gw.colAstronautAlien();
+        }
     }
 }

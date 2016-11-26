@@ -65,7 +65,8 @@ public class MapView extends Container implements Observer {
 
 	public void update(Observable observable, Object data) {
 		//GameObjects = (GameObjectCollection)data;
-        this.repaint();
+        // Only repaint if the gameworld isn't paused
+		if(gw.isPlaying) this.repaint();
     }
     
 	// Invoke the draw method of each object
@@ -90,8 +91,9 @@ public class MapView extends Container implements Observer {
         	GameObject obj = i.getNext();
             if(obj instanceof IDrawable) obj.draw(g);
             //if(obj instanceof Spaceship) System.out.println(obj);
-            if(obj instanceof Alien)	 System.out.println(obj);
+            //if(obj instanceof Alien)	   System.out.println(obj);
             //if(obj instanceof Astronaut) System.out.println(obj);
+            //System.out.println(obj);
         }
     }
 	

@@ -14,6 +14,6 @@ public class ExitCommand extends Command {
     }
     
     public void actionPerformed(ActionEvent e) {
-    	if(Dialog.show("Quit", "Are you sure you want to quit?", "Yes", "No")) gw.exit();
+    	if(gw.isPlaying) if(Dialog.show("Quit", "Are you sure you want to quit?", "Yes", "No")) gw.exit();
     }
 }
